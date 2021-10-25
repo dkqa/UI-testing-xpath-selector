@@ -18,7 +18,11 @@ public class LinksSelector implements Selector<LinksSelector> {
         return null;
     }
 
-    public LinksSelector text(boolean enabled, String text, boolean contains) {
+    public LinksSelector text(boolean dot, boolean enabled, String text, boolean contains) {
+        return null;
+    }
+
+    public LinksSelector name(String name) {
         return null;
     }
 
