@@ -1,72 +1,72 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.Random;
 
 public class AttributeTest {
     @Test
     public void testAttrEnabledContainsValue() {
-        BaseSelector selector = new BaseSelector().attribute(true, "class", "value", true);
-        Assertions.assertEquals("//*[contains(@class,'value')]", selector.toXPath());
+        BaseSelector selector = new BaseSelector().attribute("class", "value", true, true);
+        Assert.assertEquals("//*[contains(@class,'value')]", selector.toXPath());
     }
 
     @Test
     public void testAttrNotEnabledContainsValue() {
-        BaseSelector selector = new BaseSelector().attribute(false, "class", "value", true);
-        Assertions.assertEquals("//*[not(contains(@class,'value'))]", selector.toXPath());
+        BaseSelector selector = new BaseSelector().attribute("class", "value", true, false);
+        Assert.assertEquals("//*[not(contains(@class,'value'))]", selector.toXPath());
     }
 
     @Test
     public void testAttrEnabledNotContainsValue() {
-        BaseSelector selector = new BaseSelector().attribute(true, "class", "value", false);
-        Assertions.assertEquals("//*[@class='value']", selector.toXPath());
+        BaseSelector selector = new BaseSelector().attribute("class", "value", false, true);
+        Assert.assertEquals("//*[@class='value']", selector.toXPath());
     }
 
     @Test
     public void testAttrEnabledContainsNoValue() {
-        BaseSelector selector = new BaseSelector().attribute(true, "class", null, true);
-        Assertions.assertEquals("//*[contains(@class)]", selector.toXPath());
+        BaseSelector selector = new BaseSelector().attribute("class", null, true, true);
+        Assert.assertEquals("//*[contains(@class)]", selector.toXPath());
     }
 
     @Test
     public void testAttrNotEnabledContainsNoValue() {
-        BaseSelector selector = new BaseSelector().attribute(false, "class", null, true);
-        Assertions.assertEquals("//*[not(contains(@class))]", selector.toXPath());
+        BaseSelector selector = new BaseSelector().attribute("class", null, true, false);
+        Assert.assertEquals("//*[not(contains(@class))]", selector.toXPath());
     }
 
     @Test
     public void testAttrEnabledNotContainsNoValue() {
-        BaseSelector selector = new BaseSelector().attribute(true, "class", null, false);
-        Assertions.assertEquals("//*[@class]", selector.toXPath());
+        BaseSelector selector = new BaseSelector().attribute("class", null, false, true);
+        Assert.assertEquals("//*[@class]", selector.toXPath());
     }
 
     @Test
     public void testAttrNotEnabledNotContainsValue() {
-        BaseSelector selector = new BaseSelector().attribute(false, "class", "value", false);
-        Assertions.assertEquals("//*[not(@class='value')]", selector.toXPath());
+        BaseSelector selector = new BaseSelector().attribute("class", "value", false, false);
+        Assert.assertEquals("//*[not(@class='value')]", selector.toXPath());
     }
 
     @Test
     public void testAttrNotEnabledNotContainsNoValue() {
-        BaseSelector selector = new BaseSelector().attribute(false, "class", null, false);
-        Assertions.assertEquals("//*[not(@class)]", selector.toXPath());
+        BaseSelector selector = new BaseSelector().attribute("class", null, false, false);
+        Assert.assertEquals("//*[not(@class)]", selector.toXPath());
     }
 
     @Test
     public void testAttrAddTwo() {
         BaseSelector selector = new BaseSelector()
-                .attribute(true, "class1", "value1", false)
-                .attribute(true, "class2", "value2", false);
-        Assertions.assertEquals("//*[@class1='value1'][@class2='value2']", selector.toXPath());
+                .attribute("class1", "value1", false, true)
+                .attribute("class2", "value2", false, true);
+        Assert.assertEquals("//*[@class1='value1'][@class2='value2']", selector.toXPath());
     }
 
     @Test
     public void testAttrAddThree() {
         BaseSelector selector = new BaseSelector()
-                .attribute(true, "class1", "value1", false)
-                .attribute(true, "class2", "value2", false)
-                .attribute(true, "class3", "value3", false);
-        Assertions.assertEquals("//*[@class1='value1'][@class2='value2'][@class3='value3']", selector.toXPath());
+                .attribute("class1", "value1", false, true)
+                .attribute("class2", "value2", false, true)
+                .attribute("class3", "value3", false, true);
+        Assert.assertEquals("//*[@class1='value1'][@class2='value2'][@class3='value3']", selector.toXPath());
     }
 
     @Test
@@ -76,8 +76,8 @@ public class AttributeTest {
         BaseSelector selector = new BaseSelector();
         for (int i = 0; i < random; i++) {
             expRes.append("[@class='value']");
-            selector = selector.attribute(true, "class", "value", false);
+            selector = selector.attribute("class", "value", false, true);
         }
-        Assertions.assertEquals(expRes.toString(), selector.toXPath());
+        Assert.assertEquals(expRes.toString(), selector.toXPath());
     }
 }

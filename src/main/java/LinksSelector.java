@@ -2,7 +2,6 @@ import java.util.List;
 
 public class LinksSelector implements Selector<LinksSelector> {
 
-    private String name;
     private BaseSelector lastLink;
     private List<BaseSelector> links;
 
@@ -10,7 +9,7 @@ public class LinksSelector implements Selector<LinksSelector> {
         return null;
     }
 
-    public LinksSelector attribute(boolean enabled, String attr, String value, boolean contains) {
+    public LinksSelector attribute(String attr, String value, boolean contains, boolean enabled) {
         return null;
     }
 
@@ -18,7 +17,7 @@ public class LinksSelector implements Selector<LinksSelector> {
         return null;
     }
 
-    public LinksSelector text(boolean dot, boolean enabled, String text, boolean contains) {
+    public LinksSelector text(String text, boolean dot, boolean enabled, boolean contains) {
         return null;
     }
 
@@ -27,7 +26,7 @@ public class LinksSelector implements Selector<LinksSelector> {
     }
 
     public String getName() {
-        return name;
+        return null;
     }
 
     public String toXPath() {

@@ -4,11 +4,11 @@ import java.util.Random;
 
 public class BaseSelector implements Selector<BaseSelector> {
 
-    private String name;
+    private String name = "";
     private Axes axis = Axes.DEFAULT;
     private String tag = "*";
     private List<String> attributes;
-    private int position;
+    private int position = 0;
     protected int hashCode;
 
     public BaseSelector() {
@@ -35,7 +35,7 @@ public class BaseSelector implements Selector<BaseSelector> {
         return res;
     }
 
-    public BaseSelector attribute(boolean enabled, String attr, String value, boolean contains) {
+    public BaseSelector attribute(String attr, String value, boolean contains, boolean enabled) {
         BaseSelector res = new BaseSelector(this);
         String var1 = String.format("@%s", attr);
         String var2 = String.format("'%s'", value);
@@ -48,29 +48,38 @@ public class BaseSelector implements Selector<BaseSelector> {
 
     public BaseSelector position(int pos) {
         BaseSelector res = new BaseSelector(this, true);
-        res.position = (pos > 0) ? pos : null;
+        res.position = Math.max(pos, 0);
         return res;
     }
 
-    public BaseSelector text(boolean dot, boolean enabled, String text, boolean contains) {
+    public BaseSelector text(String text, boolean dot, boolean contains, boolean enabled) {
         BaseSelector res = new BaseSelector(this);
         String var1 = (dot) ? "." : "text()";
-        String var2 = String.format((contains) ? "contains(%s, '%s')" : "%s='%s'", var1, text);
+        String var2 = String.format((contains) ? "contains(%s,'%s')" : "%s='%s'", var1, text);
         String resAttr = String.format((enabled) ? "[%s]" : "[not(%s)]", var2);
         res.attributes.add(resAttr);
         return res;
     }
 
     public BaseSelector name(String name) {
-        return null;
+        this.name = name;
+        return this;
     }
 
     public String getName() {
-        return name;
+        return (name.equals("")) ? toXPath() : name;
     }
 
     public String toXPath() {
-        String xPath = axis.toString() + tag + String.join("", attributes);
+        String axis = this.axis.toString();
+        String tag = this.tag;
+        String attributes = String.join("", this.attributes);
+        String position = (this.position == 0) ? "" : String.format("[%d]", this.position);
+        String xPath = axis + tag + attributes + position;
         return xPath;
+    }
+
+    public boolean equals(BaseSelector selector) {
+        return this.hashCode == selector.hashCode;
     }
 }
