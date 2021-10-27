@@ -5,7 +5,7 @@ import java.util.Random;
 public class BaseSelector implements Selector<BaseSelector> {
 
     private String name = "";
-    private Axes axis = Axes.DEFAULT;
+    private Axes axis = Axes.DESCENDANT;
     private String tag = "*";
     private List<String> attributes;
     private int position = 0;
@@ -22,7 +22,6 @@ public class BaseSelector implements Selector<BaseSelector> {
 
     public BaseSelector(BaseSelector baseSelector, boolean saveHashCode) {
         this.hashCode = (saveHashCode) ? baseSelector.hashCode : new Random().nextInt();
-        this.name = baseSelector.name;
         this.axis = baseSelector.axis;
         this.tag = baseSelector.tag;
         this.attributes = new ArrayList<String>(baseSelector.attributes);
@@ -66,6 +65,23 @@ public class BaseSelector implements Selector<BaseSelector> {
         return this;
     }
 
+    public BaseSelector axis_attribute(Axes axis, Selector selector, boolean enabled) {
+        BaseSelector res = new BaseSelector(this, true);
+        String var1 = String.format((enabled) ? "[%s]" : "[not(%s)]", selector.viewForAxisAttribute(axis));
+        res.attributes.add(var1);
+        return res;
+    }
+
+    public LinksSelector axis(Axes axis, Selector selector) {
+        return null;
+    }
+
+    public String viewForAxisAttribute(Axes axis) {
+        BaseSelector selector = new BaseSelector(this);
+        selector.axis = axis;
+        return selector.toXPath().replaceFirst("/", "");
+    }
+
     public String getName() {
         return (name.equals("")) ? toXPath() : name;
     }
@@ -75,7 +91,7 @@ public class BaseSelector implements Selector<BaseSelector> {
         String tag = this.tag;
         String attributes = String.join("", this.attributes);
         String position = (this.position == 0) ? "" : String.format("[%d]", this.position);
-        String xPath = axis + tag + attributes + position;
+        String xPath = "/" + axis + tag + attributes + position;
         return xPath;
     }
 

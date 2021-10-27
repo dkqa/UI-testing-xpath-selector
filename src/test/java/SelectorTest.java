@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
         TextAttributeTest.class,
         PositionTest.class,
         NameTest.class,
-        HashCodeTest.class
+        HashCodeTest.class,
+        AxisAttributeTest.class
 })
 public class SelectorTest {
 

@@ -6,18 +6,18 @@ public class TagTest {
     @Test
     public void testTagDefault() {
         BaseSelector selector = new BaseSelector();
-        Assert.assertEquals("//*", selector.toXPath());
+        Assert.assertEquals("/descendant::*", selector.toXPath());
     }
 
     @Test
     public void testTagSet() {
         BaseSelector selector = new BaseSelector().tag("div");
-        Assert.assertEquals("//div", selector.toXPath());
+        Assert.assertEquals("/descendant::div", selector.toXPath());
     }
 
     @Test
     public void testTagChange() {
         BaseSelector selector = new BaseSelector().tag("div");
-        Assert.assertEquals("//a", selector.tag("a").toXPath());
+        Assert.assertEquals("/descendant::a", selector.tag("a").toXPath());
     }
 }

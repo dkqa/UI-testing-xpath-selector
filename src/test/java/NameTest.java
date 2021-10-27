@@ -6,7 +6,7 @@ public class NameTest {
     @Test
     public void testNameDefault() {
         BaseSelector selector = new BaseSelector();
-        Assert.assertEquals("//*", selector.getName());
+        Assert.assertEquals("/descendant::*", selector.getName());
     }
 
     @Test
