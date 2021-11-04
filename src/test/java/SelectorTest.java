@@ -3,13 +3,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        TagTest.class,
-        AttributeTest.class,
-        TextAttributeTest.class,
-        PositionTest.class,
-        NameTest.class,
-        HashCodeTest.class,
-        AxisAttributeTest.class
+        SimpleTest.class,
+        MultipleTest.class
 })
 public class SelectorTest {
 

@@ -1,60 +1,63 @@
+package simple;
+
 import org.junit.Assert;
 import org.junit.Test;
+import selector.SimpleSelector;
 
 import java.util.Random;
 
-public class AttributeTest {
+public class AttributeSimpleTest {
     @Test
     public void testAttrEnabledContainsValue() {
-        BaseSelector selector = new BaseSelector().attribute("class", "value", true, true);
+        SimpleSelector selector = new SimpleSelector().attribute("class", "value", true, true);
         Assert.assertEquals("/descendant::*[contains(@class,'value')]", selector.toXPath());
     }
 
     @Test
     public void testAttrNotEnabledContainsValue() {
-        BaseSelector selector = new BaseSelector().attribute("class", "value", true, false);
+        SimpleSelector selector = new SimpleSelector().attribute("class", "value", true, false);
         Assert.assertEquals("/descendant::*[not(contains(@class,'value'))]", selector.toXPath());
     }
 
     @Test
     public void testAttrEnabledNotContainsValue() {
-        BaseSelector selector = new BaseSelector().attribute("class", "value", false, true);
+        SimpleSelector selector = new SimpleSelector().attribute("class", "value", false, true);
         Assert.assertEquals("/descendant::*[@class='value']", selector.toXPath());
     }
 
     @Test
     public void testAttrEnabledContainsNoValue() {
-        BaseSelector selector = new BaseSelector().attribute("class", null, true, true);
+        SimpleSelector selector = new SimpleSelector().attribute("class", null, true, true);
         Assert.assertEquals("/descendant::*[contains(@class)]", selector.toXPath());
     }
 
     @Test
     public void testAttrNotEnabledContainsNoValue() {
-        BaseSelector selector = new BaseSelector().attribute("class", null, true, false);
+        SimpleSelector selector = new SimpleSelector().attribute("class", null, true, false);
         Assert.assertEquals("/descendant::*[not(contains(@class))]", selector.toXPath());
     }
 
     @Test
     public void testAttrEnabledNotContainsNoValue() {
-        BaseSelector selector = new BaseSelector().attribute("class", null, false, true);
+        SimpleSelector selector = new SimpleSelector().attribute("class", null, false, true);
         Assert.assertEquals("/descendant::*[@class]", selector.toXPath());
     }
 
     @Test
     public void testAttrNotEnabledNotContainsValue() {
-        BaseSelector selector = new BaseSelector().attribute("class", "value", false, false);
+        SimpleSelector selector = new SimpleSelector().attribute("class", "value", false, false);
         Assert.assertEquals("/descendant::*[not(@class='value')]", selector.toXPath());
     }
 
     @Test
     public void testAttrNotEnabledNotContainsNoValue() {
-        BaseSelector selector = new BaseSelector().attribute("class", null, false, false);
+        SimpleSelector selector = new SimpleSelector().attribute("class", null, false, false);
         Assert.assertEquals("/descendant::*[not(@class)]", selector.toXPath());
     }
 
     @Test
     public void testAttrAddTwo() {
-        BaseSelector selector = new BaseSelector()
+        SimpleSelector selector = new SimpleSelector()
                 .attribute("class1", "value1", false, true)
                 .attribute("class2", "value2", false, true);
         Assert.assertEquals("/descendant::*[@class1='value1'][@class2='value2']", selector.toXPath());
@@ -62,7 +65,7 @@ public class AttributeTest {
 
     @Test
     public void testAttrAddThree() {
-        BaseSelector selector = new BaseSelector()
+        SimpleSelector selector = new SimpleSelector()
                 .attribute("class1", "value1", false, true)
                 .attribute("class2", "value2", false, true)
                 .attribute("class3", "value3", false, true);
@@ -73,7 +76,7 @@ public class AttributeTest {
     public void testAttrAddRandomCount() {
         int random = new Random().nextInt(10);
         StringBuilder expRes = new StringBuilder("/descendant::*");
-        BaseSelector selector = new BaseSelector();
+        SimpleSelector selector = new SimpleSelector();
         for (int i = 0; i < random; i++) {
             expRes.append("[@class='value']");
             selector = selector.attribute("class", "value", false, true);

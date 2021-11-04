@@ -1,23 +1,26 @@
+package simple;
+
 import org.junit.Assert;
 import org.junit.Test;
+import selector.SimpleSelector;
 
-public class TagTest {
+public class TagSimpleTest {
 
     @Test
     public void testTagDefault() {
-        BaseSelector selector = new BaseSelector();
+        SimpleSelector selector = new SimpleSelector();
         Assert.assertEquals("/descendant::*", selector.toXPath());
     }
 
     @Test
     public void testTagSet() {
-        BaseSelector selector = new BaseSelector().tag("div");
+        SimpleSelector selector = new SimpleSelector().tag("div");
         Assert.assertEquals("/descendant::div", selector.toXPath());
     }
 
     @Test
     public void testTagChange() {
-        BaseSelector selector = new BaseSelector().tag("div");
+        SimpleSelector selector = new SimpleSelector().tag("div");
         Assert.assertEquals("/descendant::a", selector.tag("a").toXPath());
     }
 }

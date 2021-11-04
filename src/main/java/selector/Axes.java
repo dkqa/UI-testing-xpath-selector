@@ -1,3 +1,5 @@
+package selector;
+
 public enum Axes {
 
     FOLLOWING("following::"),

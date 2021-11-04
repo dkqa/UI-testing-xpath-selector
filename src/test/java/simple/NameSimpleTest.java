@@ -1,17 +1,20 @@
+package simple;
+
 import org.junit.Assert;
 import org.junit.Test;
+import selector.SimpleSelector;
 
-public class NameTest {
+public class NameSimpleTest {
 
     @Test
     public void testNameDefault() {
-        BaseSelector selector = new BaseSelector();
+        SimpleSelector selector = new SimpleSelector();
         Assert.assertEquals("/descendant::*", selector.getName());
     }
 
     @Test
     public void testNameSet() {
-        BaseSelector selector = new BaseSelector().name("name");
+        SimpleSelector selector = new SimpleSelector().name("name");
         Assert.assertEquals("name", selector.getName());
     }
 }
