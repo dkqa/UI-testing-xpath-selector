@@ -3,21 +3,20 @@ package multiple;
 import org.junit.Assert;
 import org.junit.Test;
 import selector.MultipleSelector;
-import selector.Selector;
 import selector.SimpleSelector;
 
 public class AxisMultipleTest {
 
-    final Selector BASE = new MultipleSelector(new SimpleSelector().tag("base"));
+    final MultipleSelector BASE = new MultipleSelector(new SimpleSelector().tag("base"));
 
-    final Selector ITEM = BASE.descendant(new MultipleSelector(new SimpleSelector().tag("item")));
-    final Selector ITEM_TITLE = ITEM.descendant(new MultipleSelector(new SimpleSelector().tag("title")));
+    final MultipleSelector ITEM = BASE.descendant(new MultipleSelector(new SimpleSelector().tag("item")));
+    final MultipleSelector ITEM_TITLE = ITEM.descendant(new MultipleSelector(new SimpleSelector().tag("title")));
 
-    final Selector ITEM_BLOCKED = ITEM.isDescendant(new SimpleSelector().tag("block_icon"));
-    final Selector ITEM_BLOCKED_TITLE = ITEM_BLOCKED.descendant(ITEM_TITLE);
+    final MultipleSelector ITEM_BLOCKED = ITEM.isDescendant(new MultipleSelector(new SimpleSelector().tag("block_icon")));
+    final MultipleSelector ITEM_BLOCKED_TITLE = ITEM_BLOCKED.descendant(ITEM_TITLE);
 
-    final Selector FIRST = new MultipleSelector(new SimpleSelector().tag("first"));
-    final Selector SECOND = new MultipleSelector(new SimpleSelector().tag("second"));
+    final MultipleSelector FIRST = new MultipleSelector(new SimpleSelector().tag("first"));
+    final MultipleSelector SECOND = new MultipleSelector(new SimpleSelector().tag("second"));
 
     @Test
     public void testAxisDescendant() {

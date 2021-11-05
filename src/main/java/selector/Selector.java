@@ -1,85 +1,99 @@
 package selector;
 
-public interface Selector<T extends Selector> {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    String getName();
-    T tag(String tag);
-    T attribute(String attr, String value, boolean contains, boolean enabled);
-    T position(int pos);
-    T text(String text, boolean dot, boolean contains, boolean enabled);
-    T name(String name);
-    T axis_attribute(Axes axis, Selector selector, boolean enabled);
-    String viewForAxisAttribute(Axes axis);
-    T axis(Axes axis, T selector);
-    T base_axis(Axes axis);
-    String toXPath();
+public class Selector implements SelectorBehavior<Selector> {
 
-    default T following(T selector) {
-        return axis(Axes.FOLLOWING, selector);
-    }
-    default T followingSibling(T selector) {
-        return axis(Axes.FOLLOWING_SIBLING, selector);
-    }
-    default T child(T selector) {
-        return axis(Axes.CHILD, selector);
-    }
-    default T parent(T selector) {
-        return axis(Axes.PARENT, selector);
-    }
-    default T preceding(T selector) {
-        return axis(Axes.PRECEDING, selector);
-    }
-    default T ancestor(T selector) {
-        return axis(Axes.ANCESTOR, selector);
-    }
-    default T descendant(T selector) {
-        return axis(Axes.DESCENDANT, selector);
-    }
-    default T descendantOrSelf(T selector) {
-        return axis(Axes.DESCENDANT_OR_SELF, selector);
+    private List<MultipleSelector> selectors;
+
+    public Selector() {
+        this.selectors = Arrays.asList(new MultipleSelector());
     }
 
-    default T isFollowing(T selector) {
-        return axis_attribute(Axes.FOLLOWING, selector, true);
-    }
-    default T isFollowingSibling(T selector) {
-        return axis_attribute(Axes.FOLLOWING_SIBLING, selector, true);
-    }
-    default T isParent(T selector) {
-        return axis_attribute(Axes.PARENT, selector, true);
-    }
-    default T isPreceding(T selector) {
-        return axis_attribute(Axes.PRECEDING, selector, true);
-    }
-    default T isAncestor(T selector) {
-        return axis_attribute(Axes.ANCESTOR, selector, true);
-    }
-    default T isDescendant(T selector) {
-        return axis_attribute(Axes.DESCENDANT, selector, true);
-    }
-    default T isDescendantOrSelf(T selector) {
-        return axis_attribute(Axes.DESCENDANT_OR_SELF, selector, true);
+    public Selector(MultipleSelector... selectors) {
+        this.selectors = Arrays.asList(selectors);
     }
 
-    default T isNotFollowing(T selector) {
-        return axis_attribute(Axes.FOLLOWING, selector, false);
+    public Selector(List<MultipleSelector> selectors) {
+        this.selectors = selectors;
     }
-    default T isNotFollowingSibling(T selector) {
-        return axis_attribute(Axes.FOLLOWING_SIBLING, selector, false);
+
+    public Selector(Selector selector) {
+        this.selectors = selector.selectors.stream()
+                .map(s -> new MultipleSelector(s))
+                .collect(Collectors.toList());
     }
-    default T isNotParent(T selector) {
-        return axis_attribute(Axes.PARENT, selector, false);
+
+    public Selector tag(String tag) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream().map(s -> s.tag(tag)).collect(Collectors.toList());
+        return res;
     }
-    default T isNotPreceding(T selector) {
-        return axis_attribute(Axes.PRECEDING, selector, false);
+
+    public Selector attribute(String attr, String value, boolean contains, boolean enabled) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream()
+                .map(s -> s.attribute(attr, value, contains, enabled)).collect(Collectors.toList());
+        return res;
     }
-    default T isNotAncestor(T selector) {
-        return axis_attribute(Axes.ANCESTOR, selector, false);
+
+    public Selector position(int pos) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream().map(s -> s.position(pos)).collect(Collectors.toList());
+        return res;
     }
-    default T isNotDescendant(T selector) {
-        return axis_attribute(Axes.DESCENDANT, selector, false);
+
+    public Selector text(String text, boolean dot, boolean contains, boolean enabled) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream()
+                .map(s -> s.text(text, dot, contains, enabled)).collect(Collectors.toList());
+        return res;
     }
-    default T isNotDescendantOrSelf(T selector) {
-        return axis_attribute(Axes.DESCENDANT_OR_SELF, selector, false);
+
+    public Selector name(String name) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream().map(s -> s.hardName("")).collect(Collectors.toList());
+        res.selectors.set(0, res.selectors.get(0).hardName(name));
+        return res;
+    }
+
+    public Selector axis_attribute(Axes axis, SelectorBehavior selector, boolean enabled) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream()
+                .map(s -> s.axis_attribute(axis, selector, enabled)).collect(Collectors.toList());
+        return res;
+    }
+
+    public String viewForAxisAttribute(Axes axis) {
+        return this.selectors.stream().map(s -> s.viewForAxisAttribute(axis)).collect(Collectors.joining(" | "));
+    }
+
+    public Selector axis(Axes axis, Selector selector) {
+        Selector var1 = new Selector(this);
+        Selector var2 = new Selector(selector);
+        List<MultipleSelector> newSelectors = new ArrayList<>();
+        for (int i = 0; i < var2.selectors.size(); i++) {
+            for (int j = 0; j < var1.selectors.size(); j++) {
+                newSelectors.add(var1.selectors.get(j).axis(axis, var2.selectors.get(i)));
+            }
+        }
+        return new Selector(newSelectors);
+    }
+
+    public Selector base_axis(Axes axis) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream().map(s -> s.base_axis(axis)).collect(Collectors.toList());
+        return res;
+    }
+
+    public String getName() {
+        return selectors.stream().map(SelectorBehavior::getName).collect(Collectors.joining(") or (", "(", ")"));
+    }
+
+    public String toXPath() {
+        return selectors.stream().map(SelectorBehavior::toXPath).collect(Collectors.joining(" | "));
     }
 }

@@ -6,6 +6,6 @@ import org.junit.runners.Suite;
         SimpleTest.class,
         MultipleTest.class
 })
-public class SelectorTest {
+public class AllTest {
 
 }

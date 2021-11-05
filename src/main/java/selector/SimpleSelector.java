@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SimpleSelector implements Selector<SimpleSelector> {
+public class SimpleSelector implements SelectorBehavior<SimpleSelector> {
 
     protected String name = "";
     private Axes axis = Axes.DESCENDANT;
@@ -69,7 +69,7 @@ public class SimpleSelector implements Selector<SimpleSelector> {
         return res;
     }
 
-    public SimpleSelector axis_attribute(Axes axis, Selector selector, boolean enabled) {
+    public SimpleSelector axis_attribute(Axes axis, SelectorBehavior selector, boolean enabled) {
         SimpleSelector res = new SimpleSelector(this, true);
         String var1 = String.format((enabled) ? "[%s]" : "[not(%s)]", selector.viewForAxisAttribute(axis));
         res.attributes.add(var1);

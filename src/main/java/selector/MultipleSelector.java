@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MultipleSelector implements Selector<MultipleSelector> {
+public class MultipleSelector implements SelectorBehavior<MultipleSelector> {
 
     private List<SimpleSelector> links;
 
@@ -76,7 +76,7 @@ public class MultipleSelector implements Selector<MultipleSelector> {
         return res;
     }
 
-    public MultipleSelector axis_attribute(Axes axis, Selector selector, boolean enabled) {
+    public MultipleSelector axis_attribute(Axes axis, SelectorBehavior selector, boolean enabled) {
         MultipleSelector res = new MultipleSelector(this);
         res.replaceLast(res.last().axis_attribute(axis, selector, enabled));
         return res;
@@ -118,6 +118,6 @@ public class MultipleSelector implements Selector<MultipleSelector> {
     }
 
     public String toXPath() {
-        return links.stream().map(Selector::toXPath).collect(Collectors.joining());
+        return links.stream().map(SelectorBehavior::toXPath).collect(Collectors.joining());
     }
 }
