@@ -17,14 +17,17 @@ public class Selector implements SelectorBehavior<Selector> {
         this.selectors = Arrays.asList(selectors);
     }
 
-    public Selector(List<MultipleSelector> selectors) {
+    private Selector(List<MultipleSelector> selectors) {
         this.selectors = selectors;
     }
 
-    public Selector(Selector selector) {
-        this.selectors = selector.selectors.stream()
-                .map(s -> new MultipleSelector(s))
-                .collect(Collectors.toList());
+    public Selector(Selector... selectors) {
+        this.selectors = new ArrayList<>();
+        for (Selector selector : selectors) {
+            this.selectors.addAll(selector.selectors.stream()
+                    .map(s -> new MultipleSelector(s))
+                    .collect(Collectors.toList()));
+        }
     }
 
     public Selector tag(String tag) {
@@ -95,5 +98,46 @@ public class Selector implements SelectorBehavior<Selector> {
 
     public String toXPath() {
         return selectors.stream().map(SelectorBehavior::toXPath).collect(Collectors.joining(" | "));
+    }
+
+    public String toString() {
+        return toXPath();
+    }
+
+    // Helpers
+    public Selector classAttr(String value) {
+        return this.attribute("class", value, false, true);
+    }
+
+    public Selector textParam(String text) {
+        return this.text(text, false, false, true);
+    }
+
+    public Selector textParamContains(String text) {
+        return this.text(text, false, true, true);
+    }
+
+    public Selector descendantText(String text) {
+        return this.descendant(new Selector().text(text, false, false, true));
+    }
+
+    public Selector descendantTextContains(String text) {
+        return this.descendant(new Selector().text(text, false, true, true));
+    }
+
+    public Selector isDescendantText(String text) {
+        return this.isDescendant(new Selector().text(text, false, false, true));
+    }
+
+    public Selector isDescendantTextContains(String text) {
+        return this.isDescendant(new Selector().text(text, false, true, true));
+    }
+
+    public Selector isNotDescendantText(String text) {
+        return this.isNotDescendant(new Selector().text(text, false, false, true));
+    }
+
+    public Selector isNotDescendantTextContains(String text) {
+        return this.isNotDescendant(new Selector().text(text, false, true, true));
     }
 }
