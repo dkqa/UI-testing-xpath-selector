@@ -58,8 +58,7 @@ public class Selector implements SelectorBehavior<Selector> {
 
     public Selector name(String name) {
         Selector res = new Selector(this);
-        res.selectors = res.selectors.stream().map(s -> s.hardName("")).collect(Collectors.toList());
-        res.selectors.set(0, res.selectors.get(0).hardName(name));
+        res.selectors = res.selectors.stream().map(s -> s.hardName(name)).collect(Collectors.toList());
         return res;
     }
 
@@ -93,7 +92,7 @@ public class Selector implements SelectorBehavior<Selector> {
     }
 
     public String getName() {
-        return selectors.stream().map(SelectorBehavior::getName).collect(Collectors.joining(") or (", "(", ")"));
+        return selectors.stream().map(SelectorBehavior::getName).collect(Collectors.toSet()).stream().collect(Collectors.joining(") or (", "(", ")"));
     }
 
     public String toXPath() {
@@ -105,15 +104,11 @@ public class Selector implements SelectorBehavior<Selector> {
     }
 
     // Helpers
-    public Selector classAttr(String value) {
-        return this.attribute("class", value, false, true);
-    }
-
-    public Selector textParam(String text) {
+    public Selector text(String text) {
         return this.text(text, false, false, true);
     }
 
-    public Selector textParamContains(String text) {
+    public Selector textContains(String text) {
         return this.text(text, false, true, true);
     }
 

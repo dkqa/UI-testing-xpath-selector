@@ -18,11 +18,11 @@ public class SelectorFactory {
         return new Selector().text(text, false, false, true);
     }
 
-    public static Selector div(String classValue) {
-        return new Selector().tag("div").classAttr(classValue);
+    public static Selector div(String attrValue) {
+        return new Selector().tag("div").attribute("*", attrValue, false, true);
     }
 
-    public static Selector div_contains(String classValue) {
-        return new Selector().tag("div").attribute("class", classValue, true, true);
+    public static Selector div_contains(String attrValue) {
+        return new Selector().tag("div").attribute("*", attrValue, true, true);
     }
 }

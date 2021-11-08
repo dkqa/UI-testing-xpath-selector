@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class MultipleSelector implements SelectorBehavior<MultipleSelector> {
 
-    private List<SimpleSelector> links;
+    protected List<SimpleSelector> links;
 
     public MultipleSelector() {
         this.links = new ArrayList<>();
