@@ -6,7 +6,7 @@ xPath is built as a Selector object. These objects can interact with each other,
 ***
 ### Examples
 ***
-####_Creating Selector object_:
+###_Creating Selector object_:
     
     new Selector();
 
@@ -15,7 +15,7 @@ Selector has method `String toXPath();` which return XPath as a String value
 By default, the selector has `/descendant::*` XPath
 ***
 
-####_Set tag:_
+###_Set tag:_
 Method: `tag(String tag)`
 
     new Selector().tag("div");
@@ -23,7 +23,7 @@ Method: `tag(String tag)`
 XPath - `/descendant::div`
 ***
 
-####_Set attribute_:
+###_Set attribute_:
 Method: `attribute(String attr, String value, boolean contains, boolean enabled)`
 
     new Selector().attribute("class", "value", false, true);
@@ -35,7 +35,7 @@ If `contains` is `true` -  `/descendant::*[contains(@class,'value')]`
 If `enabled` is `false` - `/descendant::*[not(@class='value')]`
 ***
 
-####_Set text attribute:_
+###_Set text attribute:_
 Method: `text(String text, boolean dot, boolean contains, boolean enabled)`
 
     new Selector().text("myText", false, false, true);
@@ -49,7 +49,7 @@ If `contains` is `true` -  `/descendant::*[contains(text(),'myText')]`
 If `enabled` is `false` - `/descendant::*[not(text()='myText')]`
 ***
 
-####_Set axial attribute:_
+###_Set axial attribute:_
 Method: `axis_attribute(Axes axis, Selector selector, boolean enabled)`
 
     Selector selector1 = new Selector().tag("myTag"); 
@@ -69,7 +69,7 @@ Also, Selector has simplified methods:
 ...etc for each axis
 ***
 
-####_Set position:_
+###_Set position:_
 Method: `position(int pos)`
 
     new Selector().position(12);
@@ -79,7 +79,7 @@ XPath - `/descendant::*[12]`
 If `position` <= `0` - `/descendant::*`
 ***
 
-####_Set axis with other selector:_
+###_Set axis with other selector:_
 Method: `axis(Axes axis, Selector selector)`
 
     Selector S1 = new Selector().tag("s1");
@@ -98,7 +98,7 @@ Also, Selector has simplified methods:
 ...etc for each axis
 ***
 
-####_Set name (this can come in handy for logs):_
+###_Set name (this can come in handy for logs):_
 Method: `name(String name)`
 
     new Selector().name("My name");
@@ -121,7 +121,7 @@ Name - `(List - Item - Name)`
 
 But if you set name for `RESULT`, `RESULT.name("New Name")` then name - `(New Name)`
 ***
-####_Set composing selector:_
+###_Set composing selector:_
 
     Selector S1 = new Selector().tag("s1");
     Selector S2 = new Selector().tag("s2");
