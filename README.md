@@ -15,7 +15,8 @@ Selector has method `String toXPath();` which return XPath as a String value
 By default, the selector has `/descendant::*` XPath
 ***
 
-###_Set tag:_
+###Set tag:
+
 Method: `tag(String tag)`
 
     new Selector().tag("div");
