@@ -1,33 +1,22 @@
 package selector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MultipleSelector implements SelectorBehavior<MultipleSelector> {
+class MultipleSelector implements SelectorBehavior<MultipleSelector> {
 
     protected List<SimpleSelector> links;
 
-    public MultipleSelector() {
+    MultipleSelector() {
         this.links = new ArrayList<>();
         this.links.add(new SimpleSelector());
     }
 
-    public MultipleSelector(MultipleSelector multipleSelector) {
+    MultipleSelector(MultipleSelector multipleSelector) {
         this.links = multipleSelector.links.stream()
                 .map(s -> new SimpleSelector(s, true))
                 .collect(Collectors.toList());
-    }
-
-    public MultipleSelector(List<SimpleSelector> links) {
-        this.links = links.stream()
-                .map(s -> new SimpleSelector(s, true))
-                .collect(Collectors.toList());
-    }
-
-    public MultipleSelector(SimpleSelector... selectors) {
-        this(Arrays.asList(selectors));
     }
 
     private void replaceLast(SimpleSelector selector) {
@@ -69,7 +58,7 @@ public class MultipleSelector implements SelectorBehavior<MultipleSelector> {
         return res;
     }
 
-    public MultipleSelector hardName(String name) {
+    public MultipleSelector nameHard(String name) {
         MultipleSelector res = new MultipleSelector(this);
         res.links.forEach(s -> s.name = "");
         res.last().name = name;

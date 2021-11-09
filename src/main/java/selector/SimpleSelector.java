@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SimpleSelector implements SelectorBehavior<SimpleSelector> {
+class SimpleSelector implements SelectorBehavior<SimpleSelector> {
 
     protected String name = "";
     private Axes axis = Axes.DESCENDANT;
@@ -13,16 +13,16 @@ public class SimpleSelector implements SelectorBehavior<SimpleSelector> {
     private int position = 0;
     protected int hashCode;
 
-    public SimpleSelector() {
+    SimpleSelector() {
         this.hashCode = new Random().nextInt();
         this.attributes = new ArrayList<>();
     }
 
-    public SimpleSelector(SimpleSelector simpleSelector) {
+    SimpleSelector(SimpleSelector simpleSelector) {
         this(simpleSelector, false);
     }
 
-    public SimpleSelector(SimpleSelector simpleSelector, boolean saveHashCode) {
+    SimpleSelector(SimpleSelector simpleSelector, boolean saveHashCode) {
         this.name = simpleSelector.name;
         this.hashCode = (saveHashCode) ? simpleSelector.hashCode : new Random().nextInt();
         this.axis = simpleSelector.axis;

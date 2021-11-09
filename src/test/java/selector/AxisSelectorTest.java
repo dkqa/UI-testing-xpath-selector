@@ -5,18 +5,20 @@ import org.junit.Test;
 
 public class AxisSelectorTest {
 
-    Selector BASE = new Selector().tag("base");
-    Selector ITEM = BASE.descendant(new Selector().tag("item"));
-    Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
-
     @Test
     public void testSelectorHasCommonRootsAddPosition() {
+        Selector BASE = new Selector().tag("base");
+        Selector ITEM = BASE.descendant(new Selector().tag("item"));
+        Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
         Assert.assertEquals("/descendant::base[3]/descendant::item/descendant::item_name",
                 BASE.position(3).descendant(ITEM_NAME).toXPath());
     }
 
     @Test
     public void testSelectorHasCommonRootsAddAxisAttribute() {
+        Selector BASE = new Selector().tag("base");
+        Selector ITEM = BASE.descendant(new Selector().tag("item"));
+        Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
         Selector BLOCK_ICON = new Selector().tag("block_icon");
         Assert.assertEquals("/descendant::base/descendant::item[descendant::block_icon]/descendant::item_name",
                 ITEM.isDescendant(BLOCK_ICON).descendant(ITEM_NAME).toXPath());
@@ -24,12 +26,18 @@ public class AxisSelectorTest {
 
     @Test
     public void testSelectorHasCommonRootsAddAttribute() {
+        Selector BASE = new Selector().tag("base");
+        Selector ITEM = BASE.descendant(new Selector().tag("item"));
+        Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
         Assert.assertNotEquals("/descendant::base/descendant::item[@class='value']/descendant::item_name",
                 ITEM.attribute("class", "value", false, true).descendant(ITEM_NAME).toXPath());
     }
 
     @Test
     public void testSelectorHasCommonRootsAddTextAttribute() {
+        Selector BASE = new Selector().tag("base");
+        Selector ITEM = BASE.descendant(new Selector().tag("item"));
+        Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
         Assert.assertNotEquals("/descendant::base/descendant::item[text()='text']/descendant::item_name",
                 ITEM.text("text", false, false, true).descendant(ITEM_NAME).toXPath());
     }

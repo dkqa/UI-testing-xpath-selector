@@ -13,14 +13,6 @@ public class Selector implements SelectorBehavior<Selector> {
         this.selectors = Arrays.asList(new MultipleSelector());
     }
 
-    public Selector(MultipleSelector... selectors) {
-        this.selectors = Arrays.asList(selectors);
-    }
-
-    private Selector(List<MultipleSelector> selectors) {
-        this.selectors = selectors;
-    }
-
     public Selector(Selector... selectors) {
         this.selectors = new ArrayList<>();
         for (Selector selector : selectors) {
@@ -28,6 +20,10 @@ public class Selector implements SelectorBehavior<Selector> {
                     .map(s -> new MultipleSelector(s))
                     .collect(Collectors.toList()));
         }
+    }
+
+    private Selector(List<MultipleSelector> selectors) {
+        this.selectors = selectors;
     }
 
     public Selector tag(String tag) {
@@ -58,7 +54,7 @@ public class Selector implements SelectorBehavior<Selector> {
 
     public Selector name(String name) {
         Selector res = new Selector(this);
-        res.selectors = res.selectors.stream().map(s -> s.hardName(name)).collect(Collectors.toList());
+        res.selectors = res.selectors.stream().map(s -> s.nameHard(name)).collect(Collectors.toList());
         return res;
     }
 
