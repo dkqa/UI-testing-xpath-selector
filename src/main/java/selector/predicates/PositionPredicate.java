@@ -47,6 +47,11 @@ public class PositionPredicate extends SelectorPredicate<PositionPredicate> {
         return res;
     }
 
+    @Override
+    public String predicateName() {
+        return "Position";
+    }
+
     private enum Operator {
 
         EQUAL("="),

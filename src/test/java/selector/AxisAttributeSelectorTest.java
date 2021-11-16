@@ -14,7 +14,7 @@ public class AxisAttributeSelectorTest {
         Selector SEL_5 = SEL_1.descendant(SEL_2);
         Selector SEL_6 = SEL_3.descendant(SEL_4);
         Assert.assertEquals("/descendant::one/descendant::two[descendant::three/descendant::four]",
-                SEL_5.axis_attribute(Axes.DESCENDANT, SEL_6, true).toXPath());
+                SEL_5.axisAttribute(Axes.DESCENDANT, SEL_6, true).toXPath());
     }
 
     @Test
@@ -26,7 +26,7 @@ public class AxisAttributeSelectorTest {
         Selector SEL_5 = SEL_1.descendant(SEL_2);
         Selector SEL_6 = SEL_3.descendant(SEL_4);
         Assert.assertEquals("/descendant::one/descendant::two[not(ancestor::three/descendant::four)]",
-                SEL_5.axis_attribute(Axes.ANCESTOR, SEL_6, false).toXPath());
+                SEL_5.axisAttribute(Axes.ANCESTOR, SEL_6, false).toXPath());
     }
 
     @Test

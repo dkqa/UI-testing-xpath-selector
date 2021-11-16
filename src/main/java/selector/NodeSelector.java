@@ -1,8 +1,7 @@
 package selector;
 
-import selector.predicates.AttrPredicate;
-import selector.predicates.AxisPredicate;
 import selector.predicates.ISelectorPredicate;
+import selector.predicates.PositionPredicate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ class NodeSelector implements ISelector<NodeSelector> {
     private Axes axis = Axes.DESCENDANT;
     private String tag = "*";
     private List<ISelectorPredicate> attributes;
-    private int position = 0;
     protected int hashCode;
 
     NodeSelector() {
@@ -33,7 +31,6 @@ class NodeSelector implements ISelector<NodeSelector> {
         this.axis = nodeSelector.axis;
         this.tag = nodeSelector.tag;
         this.attributes = new ArrayList<>(nodeSelector.attributes);
-        this.position = nodeSelector.position;
     }
 
     public NodeSelector tag(String tag) {
@@ -43,57 +40,24 @@ class NodeSelector implements ISelector<NodeSelector> {
     }
 
     public NodeSelector attribute(ISelectorPredicate predicate) {
-        NodeSelector res = new NodeSelector(this);
-        res.attributes.add(predicate);
-        return res;
-    }
-
-    public NodeSelector soft_attribute(ISelectorPredicate predicate) {
         NodeSelector res = new NodeSelector(this, true);
         res.attributes.add(predicate);
         return res;
     }
 
-    public NodeSelector attribute(String attr, String value, boolean contains, boolean enabled) {
-        AttrPredicate predicate = new AttrPredicate();
-        predicate = predicate.attr(attr, value);
-        if (contains) {
-            predicate = predicate.contains();
-        }
-        if (!enabled) {
-            predicate = predicate.not();
-        }
-        return attribute(predicate);
-    }
-
-    public NodeSelector position(int pos) {
+    public NodeSelector replaceAttribute(ISelectorPredicate predicate) {
         NodeSelector res = new NodeSelector(this, true);
-        res.position = Math.max(pos, 0);
+        res.attributes = res.attributes.stream()
+                .filter(a -> !a.predicateName().equals(predicate.predicateName()))
+                .collect(Collectors.toList());
+        res.attributes.add(predicate);
         return res;
-    }
-
-    public NodeSelector text(String text, boolean dot, boolean contains, boolean enabled) {
-        AttrPredicate predicate = new AttrPredicate();
-        predicate = (dot) ? predicate.attr(".", text) : predicate.attr("text", text);
-        if (contains) {
-            predicate = predicate.contains();
-        }
-        if (!enabled) {
-            predicate = predicate.not();
-        }
-        return attribute(predicate);
     }
 
     public NodeSelector name(String name) {
         NodeSelector res = new NodeSelector(this, true);
         res.name = name;
         return res;
-    }
-
-    public NodeSelector axis_attribute(Axes axis, ISelector selector, boolean enabled) {
-        AxisPredicate predicate = new AxisPredicate();
-        predicate = (enabled) ? predicate.selector(axis, selector) : predicate.selector(axis, selector).not();
-        return soft_attribute(predicate);
     }
 
     public NodeSelector axis(Axes axis, NodeSelector selector) {
@@ -120,10 +84,18 @@ class NodeSelector implements ISelector<NodeSelector> {
         String axis = this.axis.toString();
         String tag = this.tag;
         String attributes = this.attributes.stream()
+                .filter(s -> !(s instanceof PositionPredicate))
                 .map(ISelectorPredicate::toAttr)
                 .filter(s -> !s.equals(""))
                 .collect(Collectors.joining());
-        String position = (this.position == 0) ? "" : String.format("[%d]", this.position);
+
+        boolean posPredicate = this.attributes.stream().anyMatch(a -> a instanceof PositionPredicate);
+        String position = (posPredicate) ? this.attributes.stream()
+                .filter(a -> a instanceof PositionPredicate)
+                .findFirst()
+                .get()
+                .toAttr() : "";
+
         String xPath = "/" + axis + tag + attributes + position;
         return xPath;
     }

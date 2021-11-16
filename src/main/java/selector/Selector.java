@@ -1,6 +1,9 @@
 package selector;
 
+import selector.predicates.AttrPredicate;
+import selector.predicates.AxisPredicate;
 import selector.predicates.ISelectorPredicate;
+import selector.predicates.PositionPredicate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,25 +41,31 @@ public class Selector implements ISelector<Selector> {
         Selector res = new Selector(this);
         res.selectors = res.selectors.stream()
                 .map(s -> s.attribute(predicate)).collect(Collectors.toList());
-        return res;    }
+        return res;    
+    }
 
     public Selector attribute(String attr, String value, boolean contains, boolean enabled) {
         Selector res = new Selector(this);
         res.selectors = res.selectors.stream()
-                .map(s -> s.attribute(attr, value, contains, enabled)).collect(Collectors.toList());
+                .map(s -> s.attribute(new AttrPredicate(attr, value, contains, enabled)))
+                .collect(Collectors.toList());
         return res;
     }
 
     public Selector position(int pos) {
         Selector res = new Selector(this);
-        res.selectors = res.selectors.stream().map(s -> s.position(pos)).collect(Collectors.toList());
+        res.selectors = res.selectors.stream()
+                .map(s -> s.replaceAttribute(new PositionPredicate().position(pos)))
+                .collect(Collectors.toList());
         return res;
     }
 
-    public Selector text(String text, boolean dot, boolean contains, boolean enabled) {
+    public Selector textAttribute(String text, boolean dot, boolean contains, boolean enabled) {
         Selector res = new Selector(this);
+        AttrPredicate predicate = (dot) ? new AttrPredicate(".", text, contains, enabled) : new AttrPredicate("text", text, contains, enabled);
         res.selectors = res.selectors.stream()
-                .map(s -> s.text(text, dot, contains, enabled)).collect(Collectors.toList());
+                .map(s -> s.attribute(predicate))
+                .collect(Collectors.toList());
         return res;
     }
 
@@ -66,10 +75,12 @@ public class Selector implements ISelector<Selector> {
         return res;
     }
 
-    public Selector axis_attribute(Axes axis, ISelector selector, boolean enabled) {
+    public Selector axisAttribute(Axes axis, ISelector selector, boolean enabled) {
         Selector res = new Selector(this);
+        AxisPredicate predicate = (enabled) ? new AxisPredicate().selector(axis, selector) : new AxisPredicate().selector(axis, selector).not();
         res.selectors = res.selectors.stream()
-                .map(s -> s.axis_attribute(axis, selector, enabled)).collect(Collectors.toList());
+                .map(s -> s.attribute(predicate))
+                .collect(Collectors.toList());
         return res;
     }
 
@@ -108,35 +119,63 @@ public class Selector implements ISelector<Selector> {
     }
 
     // Helpers
-    public Selector text(String text) {
-        return this.text(text, false, false, true);
+    public Selector isFollowing(Selector selector) {
+        return axisAttribute(Axes.FOLLOWING, selector, true);
+    }
+    public Selector isFollowingSibling(Selector selector) {
+        return axisAttribute(Axes.FOLLOWING_SIBLING, selector, true);
+    }
+    public Selector isParent(Selector selector) {
+        return axisAttribute(Axes.PARENT, selector, true);
+    }
+    public Selector isPreceding(Selector selector) {
+        return axisAttribute(Axes.PRECEDING, selector, true);
+    }
+    public Selector isAncestor(Selector selector) {
+        return axisAttribute(Axes.ANCESTOR, selector, true);
+    }
+    public Selector isDescendant(Selector selector) {
+        return axisAttribute(Axes.DESCENDANT, selector, true);
+    }
+    public Selector isDescendantOrSelf(Selector selector) {
+        return axisAttribute(Axes.DESCENDANT_OR_SELF, selector, true);
     }
 
-    public Selector textContains(String text) {
-        return this.text(text, false, true, true);
+    public Selector isNotFollowing(Selector selector) {
+        return axisAttribute(Axes.FOLLOWING, selector, false);
     }
-
-    public Selector descendantText(String text) {
-        return this.descendant(new Selector().text(text, false, false, true));
+    public Selector isNotFollowingSibling(Selector selector) {
+        return axisAttribute(Axes.FOLLOWING_SIBLING, selector, false);
     }
-
-    public Selector descendantTextContains(String text) {
-        return this.descendant(new Selector().text(text, false, true, true));
+    public Selector isNotParent(Selector selector) {
+        return axisAttribute(Axes.PARENT, selector, false);
+    }
+    public Selector isNotPreceding(Selector selector) {
+        return axisAttribute(Axes.PRECEDING, selector, false);
+    }
+    public Selector isNotAncestor(Selector selector) {
+        return axisAttribute(Axes.ANCESTOR, selector, false);
+    }
+    public Selector isNotDescendant(Selector selector) {
+        return axisAttribute(Axes.DESCENDANT, selector, false);
+    }
+    public Selector isNotDescendantOrSelf(Selector selector) {
+        return axisAttribute(Axes.DESCENDANT_OR_SELF, selector, false);
     }
 
     public Selector isDescendantText(String text) {
-        return this.isDescendant(new Selector().text(text, false, false, true));
+        return this.isDescendant(new Selector().attribute(new AttrPredicate().name("text").value(text)));
     }
 
     public Selector isDescendantTextContains(String text) {
-        return this.isDescendant(new Selector().text(text, false, true, true));
+        return this.isDescendant(new Selector().attribute(new AttrPredicate().name("text").value(text).contains()));
     }
 
     public Selector isNotDescendantText(String text) {
-        return this.isNotDescendant(new Selector().text(text, false, false, true));
+        return this.isNotDescendant(new Selector().attribute(new AttrPredicate().name("text").value(text).not()));
     }
 
     public Selector isNotDescendantTextContains(String text) {
-        return this.isNotDescendant(new Selector().text(text, false, true, true));
+        return this.isNotDescendant(new Selector().attribute(new AttrPredicate().name("text").value(text).contains().not()));
     }
 }

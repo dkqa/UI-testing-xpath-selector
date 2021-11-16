@@ -39,23 +39,12 @@ class NodesSelector implements ISelector<NodesSelector> {
     public NodesSelector attribute(ISelectorPredicate predicate) {
         NodesSelector res = new NodesSelector(this);
         res.replaceLast(res.last().attribute(predicate));
-        return res;    }
-
-    public NodesSelector attribute(String attr, String value, boolean contains, boolean enabled) {
-        NodesSelector res = new NodesSelector(this);
-        res.replaceLast(res.last().attribute(attr, value, contains, enabled));
         return res;
     }
 
-    public NodesSelector position(int pos) {
+    public NodesSelector replaceAttribute(ISelectorPredicate predicate) {
         NodesSelector res = new NodesSelector(this);
-        res.replaceLast(res.last().position(pos));
-        return res;
-    }
-
-    public NodesSelector text(String text, boolean dot, boolean contains, boolean enabled) {
-        NodesSelector res = new NodesSelector(this);
-        res.replaceLast(res.last().text(text, dot, contains, enabled));
+        res.replaceLast(res.last().replaceAttribute(predicate));
         return res;
     }
 
@@ -69,12 +58,6 @@ class NodesSelector implements ISelector<NodesSelector> {
         NodesSelector res = new NodesSelector(this);
         res.nodes.forEach(s -> s.name = "");
         res.last().name = name;
-        return res;
-    }
-
-    public NodesSelector axis_attribute(Axes axis, ISelector selector, boolean enabled) {
-        NodesSelector res = new NodesSelector(this);
-        res.replaceLast(res.last().axis_attribute(axis, selector, enabled));
         return res;
     }
 

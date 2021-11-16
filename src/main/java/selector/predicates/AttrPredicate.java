@@ -7,13 +7,21 @@ public class AttrPredicate extends SelectorPredicate<AttrPredicate> {
     protected String attrValue;
     protected boolean normalizeSpace = false;
 
-    public AttrPredicate attr(String name) {
+    public AttrPredicate() {}
+
+    public AttrPredicate(String name, String value, boolean contains, boolean enabled) {
+        this.attrName = name;
+        this.attrValue = value;
+        this.contains = contains;
+        this.enabled = enabled;
+    }
+
+    public AttrPredicate name(String name) {
         this.attrName = name;
         return this;
     }
 
-    public AttrPredicate attr(String name, String value) {
-        this.attrName = name;
+    public AttrPredicate value(String value) {
         this.attrValue = value;
         return this;
     }
@@ -40,12 +48,8 @@ public class AttrPredicate extends SelectorPredicate<AttrPredicate> {
         return res;
     }
 
-    //
-    public AttrPredicate attrText(String value) {
-        return attr("text", value);
-    }
-
-    public AttrPredicate attrClass(String value) {
-        return attr("class", value);
+    @Override
+    public String predicateName() {
+        return "Attribute";
     }
 }
