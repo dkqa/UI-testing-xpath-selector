@@ -1,5 +1,7 @@
 package selector;
 
+import selector.predicates.ISelectorPredicate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,11 @@ class NodesSelector implements ISelector<NodesSelector> {
         res.replaceLast(res.last().tag(tag));
         return res;
     }
+
+    public NodesSelector attribute(ISelectorPredicate predicate) {
+        NodesSelector res = new NodesSelector(this);
+        res.replaceLast(res.last().attribute(predicate));
+        return res;    }
 
     public NodesSelector attribute(String attr, String value, boolean contains, boolean enabled) {
         NodesSelector res = new NodesSelector(this);

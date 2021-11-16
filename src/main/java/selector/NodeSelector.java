@@ -1,15 +1,20 @@
 package selector;
 
+import selector.predicates.AttrPredicate;
+import selector.predicates.AxisPredicate;
+import selector.predicates.ISelectorPredicate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 class NodeSelector implements ISelector<NodeSelector> {
 
     protected String name = "";
     private Axes axis = Axes.DESCENDANT;
     private String tag = "*";
-    private List<String> attributes;
+    private List<ISelectorPredicate> attributes;
     private int position = 0;
     protected int hashCode;
 
@@ -37,15 +42,28 @@ class NodeSelector implements ISelector<NodeSelector> {
         return res;
     }
 
-    public NodeSelector attribute(String attr, String value, boolean contains, boolean enabled) {
+    public NodeSelector attribute(ISelectorPredicate predicate) {
         NodeSelector res = new NodeSelector(this);
-        String var1 = String.format("@%s", attr);
-        String var2 = String.format("'%s'", value);
-        String var3 = (value == null) ? var1 : String.format((contains) ? "%s,%s" : "%s=%s", var1, var2);
-        String var4 = String.format((contains) ? "contains(%s)" : "%s", var3);
-        String resAttr = String.format((enabled) ? "[%s]" : "[not(%s)]", var4);
-        res.attributes.add(resAttr);
+        res.attributes.add(predicate);
         return res;
+    }
+
+    public NodeSelector soft_attribute(ISelectorPredicate predicate) {
+        NodeSelector res = new NodeSelector(this, true);
+        res.attributes.add(predicate);
+        return res;
+    }
+
+    public NodeSelector attribute(String attr, String value, boolean contains, boolean enabled) {
+        AttrPredicate predicate = new AttrPredicate();
+        predicate = predicate.attr(attr, value);
+        if (contains) {
+            predicate = predicate.contains();
+        }
+        if (!enabled) {
+            predicate = predicate.not();
+        }
+        return attribute(predicate);
     }
 
     public NodeSelector position(int pos) {
@@ -55,12 +73,15 @@ class NodeSelector implements ISelector<NodeSelector> {
     }
 
     public NodeSelector text(String text, boolean dot, boolean contains, boolean enabled) {
-        NodeSelector res = new NodeSelector(this);
-        String var1 = (dot) ? "." : "text()";
-        String var2 = String.format((contains) ? "contains(%s,'%s')" : "%s='%s'", var1, text);
-        String resAttr = String.format((enabled) ? "[%s]" : "[not(%s)]", var2);
-        res.attributes.add(resAttr);
-        return res;
+        AttrPredicate predicate = new AttrPredicate();
+        predicate = (dot) ? predicate.attr(".", text) : predicate.attr("text", text);
+        if (contains) {
+            predicate = predicate.contains();
+        }
+        if (!enabled) {
+            predicate = predicate.not();
+        }
+        return attribute(predicate);
     }
 
     public NodeSelector name(String name) {
@@ -70,10 +91,9 @@ class NodeSelector implements ISelector<NodeSelector> {
     }
 
     public NodeSelector axis_attribute(Axes axis, ISelector selector, boolean enabled) {
-        NodeSelector res = new NodeSelector(this, true);
-        String var1 = String.format((enabled) ? "[%s]" : "[not(%s)]", selector.viewForAxisAttribute(axis));
-        res.attributes.add(var1);
-        return res;
+        AxisPredicate predicate = new AxisPredicate();
+        predicate = (enabled) ? predicate.selector(axis, selector) : predicate.selector(axis, selector).not();
+        return soft_attribute(predicate);
     }
 
     public NodeSelector axis(Axes axis, NodeSelector selector) {
@@ -99,7 +119,10 @@ class NodeSelector implements ISelector<NodeSelector> {
     public String toXPath() {
         String axis = this.axis.toString();
         String tag = this.tag;
-        String attributes = String.join("", this.attributes);
+        String attributes = this.attributes.stream()
+                .map(ISelectorPredicate::toAttr)
+                .filter(s -> !s.equals(""))
+                .collect(Collectors.joining());
         String position = (this.position == 0) ? "" : String.format("[%d]", this.position);
         String xPath = "/" + axis + tag + attributes + position;
         return xPath;

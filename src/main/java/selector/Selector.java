@@ -1,5 +1,7 @@
 package selector;
 
+import selector.predicates.ISelectorPredicate;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +33,12 @@ public class Selector implements ISelector<Selector> {
         res.selectors = res.selectors.stream().map(s -> s.tag(tag)).collect(Collectors.toList());
         return res;
     }
+
+    public Selector attribute(ISelectorPredicate predicate) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream()
+                .map(s -> s.attribute(predicate)).collect(Collectors.toList());
+        return res;    }
 
     public Selector attribute(String attr, String value, boolean contains, boolean enabled) {
         Selector res = new Selector(this);

@@ -1,9 +1,12 @@
 package selector;
 
+import selector.predicates.ISelectorPredicate;
+
 public interface ISelector<T extends ISelector> {
 
     String getName();
     T tag(String tag);
+    T attribute(ISelectorPredicate predicate);
     T attribute(String attr, String value, boolean contains, boolean enabled);
     T position(int pos);
     T text(String text, boolean dot, boolean contains, boolean enabled);
