@@ -1,6 +1,6 @@
 package selector;
 
-public interface SelectorBehavior<T extends SelectorBehavior> {
+public interface ISelector<T extends ISelector> {
 
     String getName();
     T tag(String tag);
@@ -8,7 +8,7 @@ public interface SelectorBehavior<T extends SelectorBehavior> {
     T position(int pos);
     T text(String text, boolean dot, boolean contains, boolean enabled);
     T name(String name);
-    T axis_attribute(Axes axis, SelectorBehavior selector, boolean enabled);
+    T axis_attribute(Axes axis, ISelector selector, boolean enabled);
     String viewForAxisAttribute(Axes axis);
     T axis(Axes axis, T selector);
     T base_axis(Axes axis);

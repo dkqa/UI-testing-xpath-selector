@@ -5,24 +5,24 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Selector implements SelectorBehavior<Selector> {
+public class Selector implements ISelector<Selector> {
 
-    private List<MultipleSelector> selectors;
+    private List<NodesSelector> selectors;
 
     public Selector() {
-        this.selectors = Arrays.asList(new MultipleSelector());
+        this.selectors = Arrays.asList(new NodesSelector());
     }
 
     public Selector(Selector... selectors) {
         this.selectors = new ArrayList<>();
         for (Selector selector : selectors) {
             this.selectors.addAll(selector.selectors.stream()
-                    .map(s -> new MultipleSelector(s))
+                    .map(s -> new NodesSelector(s))
                     .collect(Collectors.toList()));
         }
     }
 
-    private Selector(List<MultipleSelector> selectors) {
+    private Selector(List<NodesSelector> selectors) {
         this.selectors = selectors;
     }
 
@@ -58,7 +58,7 @@ public class Selector implements SelectorBehavior<Selector> {
         return res;
     }
 
-    public Selector axis_attribute(Axes axis, SelectorBehavior selector, boolean enabled) {
+    public Selector axis_attribute(Axes axis, ISelector selector, boolean enabled) {
         Selector res = new Selector(this);
         res.selectors = res.selectors.stream()
                 .map(s -> s.axis_attribute(axis, selector, enabled)).collect(Collectors.toList());
@@ -72,7 +72,7 @@ public class Selector implements SelectorBehavior<Selector> {
     public Selector axis(Axes axis, Selector selector) {
         Selector var1 = new Selector(this);
         Selector var2 = new Selector(selector);
-        List<MultipleSelector> newSelectors = new ArrayList<>();
+        List<NodesSelector> newSelectors = new ArrayList<>();
         for (int i = 0; i < var2.selectors.size(); i++) {
             for (int j = 0; j < var1.selectors.size(); j++) {
                 newSelectors.add(var1.selectors.get(j).axis(axis, var2.selectors.get(i)));
@@ -88,11 +88,11 @@ public class Selector implements SelectorBehavior<Selector> {
     }
 
     public String getName() {
-        return selectors.stream().map(SelectorBehavior::getName).collect(Collectors.toSet()).stream().collect(Collectors.joining(") or (", "(", ")"));
+        return selectors.stream().map(ISelector::getName).collect(Collectors.toSet()).stream().collect(Collectors.joining(") or (", "(", ")"));
     }
 
     public String toXPath() {
-        return selectors.stream().map(SelectorBehavior::toXPath).collect(Collectors.joining(" | "));
+        return selectors.stream().map(ISelector::toXPath).collect(Collectors.joining(" | "));
     }
 
     public String toString() {

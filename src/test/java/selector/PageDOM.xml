@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<body>
+    <div class="list">
+
+        <div class="item" >
+            <a class="title">"Item 1"</a>
+            <a class="description">"Description 1"</a>
+            <button>"Button 1"</button>
+        </div>
+
+        <div class="item" >
+            <a class="title">"Item 2 Blocked"</a>
+            <a class="description">"Description 2 Blocked"</a>
+            <button>"Button 2 Blocked"</button>
+            <div class="block-icon"/>
+        </div>
+
+        <div class="item" >
+            <a class="title">"Item 3"</a>
+            <a class="description">"Description 3"</a>
+            <button>"Button 3"</button>
+        </div>
+
+    </div>
+</body>

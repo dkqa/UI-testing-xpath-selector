@@ -63,4 +63,15 @@ public class AxisAttributeSelectorTest {
                         " | /descendant::three[descendant::four]",
                 SEL_5.isDescendant(SEL_4).toXPath());
     }
+
+    @Test
+    public void testAxisAttrAddComposed() {
+        Selector SEL_1 = new Selector().tag("one");
+        Selector SEL_2 = new Selector().tag("two");
+        Selector SEL_3 = new Selector().tag("three");
+        Selector SEL_4 = new Selector().tag("four");
+        Selector SEL_5 = new Selector(SEL_1, SEL_2, SEL_3);
+        Assert.assertEquals("/descendant::four[descendant::one | descendant::two | descendant::three]",
+                SEL_4.isDescendant(SEL_5).toXPath());
+    }
 }
