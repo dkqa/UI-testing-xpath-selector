@@ -4,6 +4,8 @@ public class PositionPredicate extends SelectorPredicate<PositionPredicate> {
 
     protected int position = 0;
     protected Operator operator;
+    protected boolean last = false;
+    protected int endPosition = 0;
 
     public PositionPredicate position(int pos) {
         position = Math.max(pos, 0);
@@ -35,14 +37,29 @@ public class PositionPredicate extends SelectorPredicate<PositionPredicate> {
         return this;
     }
 
+    public PositionPredicate last() {
+        last = true;
+        return this;
+    }
+
+    public PositionPredicate fromEnd(int pos) {
+        endPosition = Math.max(pos, 0);
+        last = true;
+        return this;
+    }
+
     protected String getBody() {
         String res = "";
-        if (position > 0) {
-            if (enabled && operator == Operator.EQUAL) {
-                res = String.valueOf(position);
-            } else {
-                res = "position()" + operator.value() + position;
+        if (!last) {
+            if (position > 0) {
+                if (enabled && operator == Operator.EQUAL) {
+                    res = String.valueOf(position);
+                } else {
+                    res = "position()" + operator.value() + position;
+                }
             }
+        } else {
+            res = (endPosition > 0) ? "position()=last()-" + endPosition : "position()=last()";
         }
         return res;
     }

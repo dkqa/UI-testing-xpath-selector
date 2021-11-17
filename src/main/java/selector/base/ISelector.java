@@ -13,6 +13,9 @@ public interface ISelector<T extends ISelector> {
     T base_axis(Axes axis);
     String toXPath();
 
+    default T self(T selector) {
+        return axis(Axes.SELF, selector);
+    }
     default T following(T selector) {
         return axis(Axes.FOLLOWING, selector);
     }
@@ -28,8 +31,14 @@ public interface ISelector<T extends ISelector> {
     default T preceding(T selector) {
         return axis(Axes.PRECEDING, selector);
     }
+    default T precedingSibling(T selector) {
+        return axis(Axes.PRECEDING_SIBLING, selector);
+    }
     default T ancestor(T selector) {
         return axis(Axes.ANCESTOR, selector);
+    }
+    default T ancestorOrSelf(T selector) {
+        return axis(Axes.ANCESTOR_OR_SELF, selector);
     }
     default T descendant(T selector) {
         return axis(Axes.DESCENDANT, selector);

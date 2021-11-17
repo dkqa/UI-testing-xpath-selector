@@ -103,6 +103,9 @@ public class Selector implements ISelector<Selector> {
     }
 
     // Shortened methods
+    public Selector isSelf(Selector selector) {
+        return attribute(new AxisPredicate().selector(Axes.SELF, selector));
+    }
     public Selector isFollowing(Selector selector) {
         return attribute(new AxisPredicate().selector(Axes.FOLLOWING, selector));
     }
@@ -115,8 +118,14 @@ public class Selector implements ISelector<Selector> {
     public Selector isPreceding(Selector selector) {
         return attribute(new AxisPredicate().selector(Axes.PRECEDING, selector));
     }
+    public Selector isPrecedingSibling(Selector selector) {
+        return attribute(new AxisPredicate().selector(Axes.PRECEDING_SIBLING, selector));
+    }
     public Selector isAncestor(Selector selector) {
         return attribute(new AxisPredicate().selector(Axes.ANCESTOR, selector));
+    }
+    public Selector isAncestorOrSelf(Selector selector) {
+        return attribute(new AxisPredicate().selector(Axes.ANCESTOR_OR_SELF, selector));
     }
     public Selector isDescendant(Selector selector) {
         return attribute(new AxisPredicate().selector(Axes.DESCENDANT, selector));
@@ -125,6 +134,9 @@ public class Selector implements ISelector<Selector> {
         return attribute(new AxisPredicate().selector(Axes.DESCENDANT_OR_SELF, selector));
     }
 
+    public Selector isNotSelf(Selector selector) {
+        return attribute(new AxisPredicate().selector(Axes.SELF, selector).not());
+    }
     public Selector isNotFollowing(Selector selector) {
         return attribute(new AxisPredicate().selector(Axes.FOLLOWING, selector).not());
     }
@@ -137,8 +149,14 @@ public class Selector implements ISelector<Selector> {
     public Selector isNotPreceding(Selector selector) {
         return attribute(new AxisPredicate().selector(Axes.PRECEDING, selector).not());
     }
+    public Selector isNotPrecedingSibling(Selector selector) {
+        return attribute(new AxisPredicate().selector(Axes.PRECEDING_SIBLING, selector).not());
+    }
     public Selector isNotAncestor(Selector selector) {
         return attribute(new AxisPredicate().selector(Axes.ANCESTOR, selector).not());
+    }
+    public Selector isNotAncestorOrSelf(Selector selector) {
+        return attribute(new AxisPredicate().selector(Axes.ANCESTOR_OR_SELF, selector).not());
     }
     public Selector isNotDescendant(Selector selector) {
         return attribute(new AxisPredicate().selector(Axes.DESCENDANT, selector).not());
