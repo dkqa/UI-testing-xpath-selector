@@ -1,8 +1,8 @@
 package example;
 
-//https://www.bookvoed.ru/books?genre=2
+// https://www.bookvoed.ru/books?genre=2
 
-import selector.Selector;
+import selector.base.Selector;
 
 import static selector.SelectorFactory.div;
 

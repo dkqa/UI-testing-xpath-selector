@@ -2,6 +2,8 @@ package selector;
 
 import org.junit.Assert;
 import org.junit.Test;
+import selector.base.Selector;
+import selector.predicates.AttrPredicate;
 
 public class AttributeSelectorTest {
 
@@ -10,80 +12,80 @@ public class AttributeSelectorTest {
     public void testAttrAddOne() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[@class='value']",
-                selector.attribute("class", "value", false, true).toXPath());
+                selector.attribute(new AttrPredicate().name("class").value("value")).toXPath());
     }
 
     @Test
     public void testAttrEnabledContainsValue() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[contains(@class,'value')]",
-                selector.attribute("class", "value", true, true).toXPath());
+                selector.attribute(new AttrPredicate().name("class").value("value").contains()).toXPath());
     }
 
     @Test
     public void testAttrNotEnabledContainsValue() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[not(contains(@class,'value'))]",
-                selector.attribute("class", "value", true, false).toXPath());
+                selector.attribute(new AttrPredicate().name("class").value("value").contains().not()).toXPath());
     }
 
     @Test
     public void testAttrEnabledNotContainsValue() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[@class='value']",
-                selector.attribute("class", "value", false, true).toXPath());
+                selector.attribute(new AttrPredicate().name("class").value("value")).toXPath());
     }
 
     @Test
     public void testAttrEnabledContainsNoValue() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[contains(@class)]",
-                selector.attribute("class", null, true, true).toXPath());
+                selector.attribute(new AttrPredicate().name("class").contains()).toXPath());
     }
 
     @Test
     public void testAttrNotEnabledContainsNoValue() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[not(contains(@class))]",
-                selector.attribute("class", null, true, false).toXPath());
+                selector.attribute(new AttrPredicate().name("class").contains().not()).toXPath());
     }
 
     @Test
     public void testAttrEnabledNotContainsNoValue() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[@class]",
-                selector.attribute("class", null, false, true).toXPath());
+                selector.attribute(new AttrPredicate().name("class")).toXPath());
     }
 
     @Test
     public void testAttrNotEnabledNotContainsValue() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[not(@class='value')]",
-                selector.attribute("class", "value", false, false).toXPath());
+                selector.attribute(new AttrPredicate().name("class").value("value").not()).toXPath());
     }
 
     @Test
     public void testAttrNotEnabledNotContainsNoValue() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[not(@class)]",
-                selector.attribute("class", null, false, false).toXPath());
+                selector.attribute(new AttrPredicate().name("class").not()).toXPath());
     }
 
     @Test
     public void testAttrAddTwo() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[@class='value'][@class2='value2']",
-                selector.attribute("class", "value", false, true)
-                        .attribute("class2", "value2", false, true).toXPath());
+                selector.attribute(new AttrPredicate().name("class").value("value"))
+                        .attribute(new AttrPredicate().name("class2").value("value2")).toXPath());
     }
 
     @Test
     public void testAttrAddThree() {
         Selector selector = new Selector().tag("div1").descendant(new Selector().tag("div2"));
         Assert.assertEquals("/descendant::div1/descendant::div2[@class1='value1'][@class2='value2'][@class3='value3']",
-                selector.attribute("class1", "value1", false, true)
-                        .attribute("class2", "value2", false, true)
-                        .attribute("class3", "value3", false, true).toXPath());
+                selector.attribute(new AttrPredicate().name("class1").value("value1"))
+                        .attribute(new AttrPredicate().name("class2").value("value2"))
+                        .attribute(new AttrPredicate().name("class3").value("value3")).toXPath());
     }
 
     @Test
@@ -96,7 +98,7 @@ public class AttributeSelectorTest {
         Assert.assertEquals("/descendant::*/descendant::*[@*='value']" +
                         " | /descendant::*/descendant::*[@*='value']" +
                         " | /descendant::*/descendant::*[@*='value']",
-                selectorCompose.attribute("*", "value", false, true).toXPath());
+                selectorCompose.attribute(new AttrPredicate().value("value")).toXPath());
     }
 
 }

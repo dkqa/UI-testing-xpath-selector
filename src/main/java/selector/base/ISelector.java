@@ -1,5 +1,6 @@
-package selector;
+package selector.base;
 
+import selector.Axes;
 import selector.predicates.ISelectorPredicate;
 
 public interface ISelector<T extends ISelector> {
@@ -8,7 +9,6 @@ public interface ISelector<T extends ISelector> {
     T tag(String tag);
     T attribute(ISelectorPredicate predicate);
     T name(String name);
-    String viewForAxisAttribute(Axes axis);
     T axis(Axes axis, T selector);
     T base_axis(Axes axis);
     String toXPath();

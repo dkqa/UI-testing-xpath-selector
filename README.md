@@ -179,7 +179,7 @@ We have any list which contains cards and blocked cards
 
 Let's denote the list and card selectors
 
-    import selector.Selector;
+    import selector.base.Selector;
 
     import static selector.SelectorFactory.tag;
 

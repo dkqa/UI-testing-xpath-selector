@@ -1,5 +1,6 @@
-package selector;
+package selector.base;
 
+import selector.Axes;
 import selector.predicates.ISelectorPredicate;
 
 import java.util.ArrayList;
@@ -82,10 +83,6 @@ class NodesSelector implements ISelector<NodesSelector> {
         NodesSelector res = new NodesSelector(this);
         res.nodes.set(0, this.nodes.get(0).base_axis(axis));
         return res;
-    }
-
-    public String viewForAxisAttribute(Axes axis) {
-        return this.base_axis(axis).toXPath().replaceFirst("/", "");
     }
 
     public String getName() {

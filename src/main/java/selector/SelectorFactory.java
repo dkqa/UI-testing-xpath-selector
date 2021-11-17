@@ -1,8 +1,9 @@
 package selector;
 
+import selector.base.Selector;
 import selector.predicates.AttrPredicate;
 
-import static selector.predicates.SelectorPredicateFactory.attrAny;
+import static selector.SelectorPredicateFactory.attrAny;
 
 public class SelectorFactory {
 
@@ -19,7 +20,7 @@ public class SelectorFactory {
     }
 
     public static Selector text(String text) {
-        return new Selector().textAttribute(text, false, false, true);
+        return new Selector().attribute(new AttrPredicate().value("text").value(text));
     }
 
     public static Selector div(String attrValue) {

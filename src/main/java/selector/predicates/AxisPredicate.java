@@ -1,7 +1,7 @@
 package selector.predicates;
 
 import selector.Axes;
-import selector.ISelector;
+import selector.base.ISelector;
 
 public class AxisPredicate extends SelectorPredicate<AxisPredicate> {
 
@@ -17,7 +17,9 @@ public class AxisPredicate extends SelectorPredicate<AxisPredicate> {
     protected String getBody() {
         String res = "";
         if (selector != null) {
-            res = selector.viewForAxisAttribute(axis);
+            res = selector.base_axis(axis).toXPath()
+                    .replaceAll("^/", "")
+                    .replaceAll(" /", " ");
         }
         return res;
     }

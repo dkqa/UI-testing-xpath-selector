@@ -1,7 +1,7 @@
 package example;
 
 import org.junit.Test;
-import selector.Selector;
+import selector.base.Selector;
 
 import static example.BookvoedPage.BOOK;
 import static example.BookvoedPage.SALE_ICON;
@@ -22,6 +22,11 @@ public class BookvoedTest {
     @Test
     public void test1() {
         click(BOOK.isDescendant(SALE_ICON).descendant(Book.TITLE));
+    }
+
+    @Test
+    public void testAuthor() {
+        click(BOOK.isDescendantText("Author Name").descendant(Book.TITLE));
     }
 
 }

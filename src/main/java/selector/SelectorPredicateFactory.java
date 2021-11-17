@@ -1,4 +1,6 @@
-package selector.predicates;
+package selector;
+
+import selector.predicates.AttrPredicate;
 
 public class SelectorPredicateFactory {
 

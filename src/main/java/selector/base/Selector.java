@@ -1,5 +1,6 @@
-package selector;
+package selector.base;
 
+import selector.Axes;
 import selector.predicates.AttrPredicate;
 import selector.predicates.AxisPredicate;
 import selector.predicates.ISelectorPredicate;
@@ -33,59 +34,26 @@ public class Selector implements ISelector<Selector> {
 
     public Selector tag(String tag) {
         Selector res = new Selector(this);
-        res.selectors = res.selectors.stream().map(s -> s.tag(tag)).collect(Collectors.toList());
+        res.selectors = res.selectors.stream()
+                .map(s -> s.tag(tag))
+                .collect(Collectors.toList());
         return res;
     }
 
     public Selector attribute(ISelectorPredicate predicate) {
         Selector res = new Selector(this);
         res.selectors = res.selectors.stream()
-                .map(s -> s.attribute(predicate)).collect(Collectors.toList());
-        return res;    
-    }
-
-    public Selector attribute(String attr, String value, boolean contains, boolean enabled) {
-        Selector res = new Selector(this);
-        res.selectors = res.selectors.stream()
-                .map(s -> s.attribute(new AttrPredicate(attr, value, contains, enabled)))
-                .collect(Collectors.toList());
-        return res;
-    }
-
-    public Selector position(int pos) {
-        Selector res = new Selector(this);
-        res.selectors = res.selectors.stream()
-                .map(s -> s.replaceAttribute(new PositionPredicate().position(pos)))
-                .collect(Collectors.toList());
-        return res;
-    }
-
-    public Selector textAttribute(String text, boolean dot, boolean contains, boolean enabled) {
-        Selector res = new Selector(this);
-        AttrPredicate predicate = (dot) ? new AttrPredicate(".", text, contains, enabled) : new AttrPredicate("text", text, contains, enabled);
-        res.selectors = res.selectors.stream()
                 .map(s -> s.attribute(predicate))
                 .collect(Collectors.toList());
-        return res;
+        return res;    
     }
 
     public Selector name(String name) {
         Selector res = new Selector(this);
-        res.selectors = res.selectors.stream().map(s -> s.nameHard(name)).collect(Collectors.toList());
-        return res;
-    }
-
-    public Selector axisAttribute(Axes axis, ISelector selector, boolean enabled) {
-        Selector res = new Selector(this);
-        AxisPredicate predicate = (enabled) ? new AxisPredicate().selector(axis, selector) : new AxisPredicate().selector(axis, selector).not();
         res.selectors = res.selectors.stream()
-                .map(s -> s.attribute(predicate))
+                .map(s -> s.nameHard(name))
                 .collect(Collectors.toList());
         return res;
-    }
-
-    public String viewForAxisAttribute(Axes axis) {
-        return this.selectors.stream().map(s -> s.viewForAxisAttribute(axis)).collect(Collectors.joining(" | "));
     }
 
     public Selector axis(Axes axis, Selector selector) {
@@ -102,65 +70,81 @@ public class Selector implements ISelector<Selector> {
 
     public Selector base_axis(Axes axis) {
         Selector res = new Selector(this);
-        res.selectors = res.selectors.stream().map(s -> s.base_axis(axis)).collect(Collectors.toList());
+        res.selectors = res.selectors.stream()
+                .map(s -> s.base_axis(axis))
+                .collect(Collectors.toList());
         return res;
     }
 
     public String getName() {
-        return selectors.stream().map(ISelector::getName).collect(Collectors.toSet()).stream().collect(Collectors.joining(") or (", "(", ")"));
+        return selectors.stream()
+                .map(ISelector::getName)
+                .collect(Collectors.toSet())
+                .stream()
+                .collect(Collectors.joining(") or (", "(", ")"));
     }
 
     public String toXPath() {
-        return selectors.stream().map(ISelector::toXPath).collect(Collectors.joining(" | "));
+        return selectors.stream()
+                .map(ISelector::toXPath)
+                .collect(Collectors.joining(" | "));
+    }
+
+    public Selector position(int pos) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream()
+                .map(s -> s.replaceAttribute(new PositionPredicate().position(pos)))
+                .collect(Collectors.toList());
+        return res;
     }
 
     public String toString() {
         return toXPath();
     }
 
-    // Helpers
+    // Shortened methods
     public Selector isFollowing(Selector selector) {
-        return axisAttribute(Axes.FOLLOWING, selector, true);
+        return attribute(new AxisPredicate().selector(Axes.FOLLOWING, selector));
     }
     public Selector isFollowingSibling(Selector selector) {
-        return axisAttribute(Axes.FOLLOWING_SIBLING, selector, true);
+        return attribute(new AxisPredicate().selector(Axes.FOLLOWING_SIBLING, selector));
     }
     public Selector isParent(Selector selector) {
-        return axisAttribute(Axes.PARENT, selector, true);
+        return attribute(new AxisPredicate().selector(Axes.PARENT, selector));
     }
     public Selector isPreceding(Selector selector) {
-        return axisAttribute(Axes.PRECEDING, selector, true);
+        return attribute(new AxisPredicate().selector(Axes.PRECEDING, selector));
     }
     public Selector isAncestor(Selector selector) {
-        return axisAttribute(Axes.ANCESTOR, selector, true);
+        return attribute(new AxisPredicate().selector(Axes.ANCESTOR, selector));
     }
     public Selector isDescendant(Selector selector) {
-        return axisAttribute(Axes.DESCENDANT, selector, true);
+        return attribute(new AxisPredicate().selector(Axes.DESCENDANT, selector));
     }
     public Selector isDescendantOrSelf(Selector selector) {
-        return axisAttribute(Axes.DESCENDANT_OR_SELF, selector, true);
+        return attribute(new AxisPredicate().selector(Axes.DESCENDANT_OR_SELF, selector));
     }
 
     public Selector isNotFollowing(Selector selector) {
-        return axisAttribute(Axes.FOLLOWING, selector, false);
+        return attribute(new AxisPredicate().selector(Axes.FOLLOWING, selector).not());
     }
     public Selector isNotFollowingSibling(Selector selector) {
-        return axisAttribute(Axes.FOLLOWING_SIBLING, selector, false);
+        return attribute(new AxisPredicate().selector(Axes.FOLLOWING_SIBLING, selector).not());
     }
     public Selector isNotParent(Selector selector) {
-        return axisAttribute(Axes.PARENT, selector, false);
+        return attribute(new AxisPredicate().selector(Axes.PARENT, selector).not());
     }
     public Selector isNotPreceding(Selector selector) {
-        return axisAttribute(Axes.PRECEDING, selector, false);
+        return attribute(new AxisPredicate().selector(Axes.PRECEDING, selector).not());
     }
     public Selector isNotAncestor(Selector selector) {
-        return axisAttribute(Axes.ANCESTOR, selector, false);
+        return attribute(new AxisPredicate().selector(Axes.ANCESTOR, selector).not());
     }
     public Selector isNotDescendant(Selector selector) {
-        return axisAttribute(Axes.DESCENDANT, selector, false);
+        return attribute(new AxisPredicate().selector(Axes.DESCENDANT, selector).not());
     }
     public Selector isNotDescendantOrSelf(Selector selector) {
-        return axisAttribute(Axes.DESCENDANT_OR_SELF, selector, false);
+        return attribute(new AxisPredicate().selector(Axes.DESCENDANT_OR_SELF, selector).not());
     }
 
     public Selector isDescendantText(String text) {

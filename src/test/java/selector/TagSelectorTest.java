@@ -2,6 +2,7 @@ package selector;
 
 import org.junit.Assert;
 import org.junit.Test;
+import selector.base.Selector;
 
 public class TagSelectorTest {
 

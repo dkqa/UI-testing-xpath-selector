@@ -2,6 +2,8 @@ package selector;
 
 import org.junit.Assert;
 import org.junit.Test;
+import selector.base.Selector;
+import selector.predicates.AttrPredicate;
 
 public class AxisSelectorTest {
 
@@ -30,7 +32,7 @@ public class AxisSelectorTest {
         Selector ITEM = BASE.descendant(new Selector().tag("item"));
         Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
         Assert.assertEquals("/descendant::base/descendant::item[@class='value']/descendant::item_name",
-                ITEM.attribute("class", "value", false, true).descendant(ITEM_NAME).toXPath());
+                ITEM.attribute(new AttrPredicate().name("class").value("value")).descendant(ITEM_NAME).toXPath());
     }
 
     @Test
@@ -39,7 +41,7 @@ public class AxisSelectorTest {
         Selector ITEM = BASE.descendant(new Selector().tag("item"));
         Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
         Assert.assertEquals("/descendant::base/descendant::item[text()='text']/descendant::item_name",
-                ITEM.textAttribute("text", false, false, true).descendant(ITEM_NAME).toXPath());
+                ITEM.attribute(new AttrPredicate().name("text").value("text")).descendant(ITEM_NAME).toXPath());
     }
 
     @Test

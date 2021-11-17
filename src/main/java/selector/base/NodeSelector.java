@@ -1,5 +1,6 @@
-package selector;
+package selector.base;
 
+import selector.Axes;
 import selector.predicates.ISelectorPredicate;
 import selector.predicates.PositionPredicate;
 
@@ -68,12 +69,6 @@ class NodeSelector implements ISelector<NodeSelector> {
         NodeSelector res = new NodeSelector(this, true);
         res.axis = axis;
         return res;
-    }
-
-    public String viewForAxisAttribute(Axes axis) {
-        NodeSelector selector = new NodeSelector(this);
-        selector.axis = axis;
-        return selector.toXPath().replaceFirst("/", "");
     }
 
     public String getName() {

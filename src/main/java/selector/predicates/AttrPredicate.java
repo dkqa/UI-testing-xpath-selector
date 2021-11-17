@@ -7,15 +7,6 @@ public class AttrPredicate extends SelectorPredicate<AttrPredicate> {
     protected String attrValue;
     protected boolean normalizeSpace = false;
 
-    public AttrPredicate() {}
-
-    public AttrPredicate(String name, String value, boolean contains, boolean enabled) {
-        this.attrName = name;
-        this.attrValue = value;
-        this.contains = contains;
-        this.enabled = enabled;
-    }
-
     public AttrPredicate name(String name) {
         this.attrName = name;
         return this;
@@ -38,6 +29,9 @@ public class AttrPredicate extends SelectorPredicate<AttrPredicate> {
 
     protected String getBody() {
         String res = "";
+        if (attrName == null && attrValue != null) {
+            attrName = "*";
+        }
         if (attrName != null) {
             String var1 = (attrName.equals("text")) ? "text()" : (attrName.equals(".")) ? "." : "@" + attrName;
             String var2 = String.format((normalizeSpace) ? "normalize-space(%s)" : "%s", var1);
