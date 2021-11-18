@@ -489,7 +489,7 @@ Create class for with.
 
 In the `BookvoedPage.BookHit` class we have described all the elements related to books with the Hit mark.
 
-<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_101.jpg"/>
+![Screenshot_101](https://user-images.githubusercontent.com/38009604/142426244-d225741f-9b4f-4318-bfb9-281b06ddd731.jpg)
 
 
 Thanks to the hash-code logic, we got rid of unnecessary duplicates and our page looks neatly described. 
@@ -497,18 +497,10 @@ And if the value of the class attribute changes somewhere, then we just need to 
 
 Using in test code:
 
-<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_14.jpg"/>
+![Screenshot_14](https://user-images.githubusercontent.com/38009604/142426078-9f5fbc18-f5f3-4108-a1de-59bde33a10aa.jpg)
 
-<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_15.jpg"/>
+![Screenshot_15](https://user-images.githubusercontent.com/38009604/142426218-fee8139f-1bdd-4158-8fd7-fd0572d62bca.jpg)
 
 We also have the ability to generate selectors at runtime.
-<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_102.jpg"/>
-
-![](C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_102.jpg)
-
-![alt text](https://github.com/dkqa/xpath-builder/tree/main/src/test/java/example/Screenshot_102.jpg?raw=true)
-
-![alt text](https://github.com/dkqa/xpath-builder/tree/main/src/test/java/example/Screenshot_102.jpg)
-
-![Screenshot](Screenshot_102.jpg)
+![Screenshot_102](https://user-images.githubusercontent.com/38009604/142426252-818ef15d-3d18-4fb8-94cd-ec3dfc5aeec6.jpg)
 
