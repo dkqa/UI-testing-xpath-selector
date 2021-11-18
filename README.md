@@ -485,7 +485,7 @@ We have page https://www.bookvoed.ru/books?genre=2
 
 Create class for with.
 
-<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_12.jpg"/>
+![Screenshot_12](https://user-images.githubusercontent.com/38009604/142425922-837a9650-acb8-4aeb-b5a5-84904cbbb18f.jpg)
 
 In the `BookvoedPage.BookHit` class we have described all the elements related to books with the Hit mark.
 
