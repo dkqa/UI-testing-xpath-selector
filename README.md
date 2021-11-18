@@ -243,6 +243,8 @@ Method: `axis(Axes axis, Selector selector)`
 - method `following(selector)` equivalent `axis(Axes.FOLLOWING, selector)`
 - `...`
 
+~
+
 
     Selector S1 = new Selector().tag("t1");
     Selector S2 = new Selector().tag("t2");
