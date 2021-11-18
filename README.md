@@ -191,7 +191,7 @@ XPath - `/descendant::div`
 
 ### 3.3. _Set attributes_:
 
-1) Method: `attribute(ISelectorPredicate predicate)`
+ 1 ) Method: `attribute(ISelectorPredicate predicate)`
 
 
     new Selector().attribute(new AttrPredicate().name("class").value("value"));
@@ -199,7 +199,7 @@ XPath - `/descendant::div`
 
 XPath - `/descendant::*[@class='value']`
 
-2) We have the ability to add several attributes:
+2 ) We have the ability to add several attributes:
 
 
     new Selector()
@@ -209,7 +209,7 @@ XPath - `/descendant::*[@class='value']`
 
 XPath - `/descendant::*[@class='cValue'][contains(text()='tValue')]`
 
-3) Selector has simplified methods for `AxisPredicate`
+3 ) Selector has simplified methods for `AxisPredicate`
 
 - `isDescendant(selector)` equivalent `attribute(new AxisPredicate().selector(Axes.DESCENDANT, selector))`
 - `isNotDescendant(selector)` equivalent `attribute(new AxisPredicate().selector(Axes.DESCENDANT, selector)).not()`
@@ -224,7 +224,7 @@ XPath - `/descendant::*[@class='cValue'][contains(text()='tValue')]`
 
 XPath - `/descendant::t2[following::t1]`
 
-4) Method `position(int pos)` equivalent `attribute(new PositionPredicate().position(pos))`
+4 ) Method `position(int pos)` equivalent `attribute(new PositionPredicate().position(pos))`
 
 
     new Selector().position(3);
@@ -284,7 +284,7 @@ But if you set name for `RESULT`, `RESULT.name("New Name")` then name - `(New Na
 ***
 ### 3.6. _Set composing selector:_
 
-1) Creating
+1 ) Creating
 
 
     Selector S1 = new Selector().tag("t1");
@@ -296,7 +296,7 @@ But if you set name for `RESULT`, `RESULT.name("New Name")` then name - `(New Na
 
 XPath - `/descendant::t1 | /descendant::t2 | /descendant::t3`
 
-2) Add Axis
+2 ) Add Axis
 
 
     Selector S1 = new Selector().tag("t1");
@@ -312,7 +312,7 @@ XPath - `/descendant::t1 | /descendant::t2 | /descendant::t3`
 
 XPath - `/descendant::t1/descendant::t4 | /descendant::t2/descendant::t4 | /descendant::t3/descendant::t4`
 
-3) Add Attribute
+3 ) Add Attribute
 
 
     Selector S1 = new Selector().tag("t1");
@@ -344,7 +344,7 @@ XPath - `/descendant::t1[descendant::t4] | /descendant::t2[descendant::t4] | /de
 
 XPath - `/descendant::t1[3] | /descendant::t2[3] | /descendant::t3[3]`
 
-4) Axis with composing selector
+4 ) Axis with composing selector
 
 
     Selector S1 = new Selector().tag("t1");
@@ -361,7 +361,7 @@ XPath - `/descendant::t1[3] | /descendant::t2[3] | /descendant::t3[3]`
 XPath - `/descendant::t4/descendant::t1 | /descendant::t4/descendant::t2 | /descendant::t4/descendant::t3`
 
 
-5) Attribute with composing selector
+5 ) Attribute with composing selector
 
 
     Selector S1 = new Selector().tag("t1");
@@ -377,7 +377,7 @@ XPath - `/descendant::t4/descendant::t1 | /descendant::t4/descendant::t2 | /desc
 
 XPath - `/descendant::t4[descendant::t1 | /descendant::t2 | /descendant::t3]`
 
-6) Composing selector Axis with Composing selector 
+6 ) Composing selector Axis with Composing selector 
 
 
     Selector S1 = new Selector().tag("t1");
