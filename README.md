@@ -196,6 +196,7 @@ XPath - `/descendant::div`
 
     new Selector().attribute(new AttrPredicate().name("class").value("value"));
 
+
 XPath - `/descendant::*[@class='value']`
 
 2) We have the ability to add several attributes:
@@ -204,6 +205,7 @@ XPath - `/descendant::*[@class='value']`
     new Selector()
             .attribute(new AttrPredicate().name("class").value("cValue"))
             .attribute(new AttrPredicate().name("text").value("tValue").contains());
+
 
 XPath - `/descendant::*[@class='cValue'][contains(text()='tValue')]`
 
@@ -219,12 +221,14 @@ XPath - `/descendant::*[@class='cValue'][contains(text()='tValue')]`
     
     new Selector().tag("t2").isFollowing(S1); // /descendant::t2[following::t1]  
 
+
 XPath - `/descendant::t2[following::t1]`
 
 4) Method `position(int pos)` equivalent `attribute(new PositionPredicate().position(pos))`
 
 
     new Selector().position(3);
+
 
 XPath - `/descendant::*[3]`
 
@@ -245,6 +249,7 @@ Method: `axis(Axes axis, Selector selector)`
 
     S1.following(S2);
 
+
 XPath - `/descendant::t1/following::t2`
 
 ***
@@ -253,7 +258,9 @@ XPath - `/descendant::t1/following::t2`
 
 Method: `name(String name)`
 
+
     new Selector().name("My name");
+
 
 Selector has method `String getName();` which return the name
 
@@ -263,11 +270,13 @@ If name wasn't initialized then the method `getName()` return XPath of the selec
 
 P.S. selectors names add up, example:
 
+
     Selector LIST = new Selector().name("List");
     Selector ITEM = new Selector().name("Item");
     Selector NAME = new Selector().name("Name");
 
     Selector RESULT = LIST.descendant(ITEM).descendant(NAME);
+
 
 Name - `(List - Item - Name)`
 
@@ -284,6 +293,7 @@ But if you set name for `RESULT`, `RESULT.name("New Name")` then name - `(New Na
 
     Selector COMPOSING = new Selector(S1, S2, S3);
 
+
 XPath - `/descendant::t1 | /descendant::t2 | /descendant::t3`
 
 2) Add Axis
@@ -298,6 +308,7 @@ XPath - `/descendant::t1 | /descendant::t2 | /descendant::t3`
     Selector S4 = new Selector().tag("t4);
 
     COMPOSING.descendant(S4);
+
 
 XPath - `/descendant::t1/descendant::t4 | /descendant::t2/descendant::t4 | /descendant::t3/descendant::t4`
 
@@ -314,9 +325,11 @@ XPath - `/descendant::t1/descendant::t4 | /descendant::t2/descendant::t4 | /desc
 
     COMPOSING.isNotDescendant(S4);
 
+
 XPath - `/descendant::t1[descendant::t4] | /descendant::t2[descendant::t4] | /descendant::t3[descendant::t4]`
 
 **...or...**
+
 
     Selector S1 = new Selector().tag("t1");
     Selector S2 = new Selector().tag("t2");
@@ -327,6 +340,7 @@ XPath - `/descendant::t1[descendant::t4] | /descendant::t2[descendant::t4] | /de
     Selector S4 = new Selector().tag("t4);
 
     COMPOSING.position(3);
+
 
 XPath - `/descendant::t1[3] | /descendant::t2[3] | /descendant::t3[3]`
 
@@ -342,6 +356,7 @@ XPath - `/descendant::t1[3] | /descendant::t2[3] | /descendant::t3[3]`
     Selector S4 = new Selector().tag("t4);
 
     S4.descendant(COMPOSING);
+
 
 XPath - `/descendant::t4/descendant::t1 | /descendant::t4/descendant::t2 | /descendant::t4/descendant::t3`
 
@@ -359,6 +374,7 @@ XPath - `/descendant::t4/descendant::t1 | /descendant::t4/descendant::t2 | /desc
 
     S4.isDescendant(COMPOSING);
 
+
 XPath - `/descendant::t4[descendant::t1 | /descendant::t2 | /descendant::t3]`
 
 6) Composing selector Axis with Composing selector 
@@ -373,6 +389,7 @@ XPath - `/descendant::t4[descendant::t1 | /descendant::t2 | /descendant::t3]`
     Selector COMPOSING_2 = new Selector(S3, S4); // /descendant::t3 | /descendant::t4
 
     COMPOSING_1.descendant(COMPOSING_2);
+
 
 XPath - `/descendant::t1/descendant::t3 | /descendant::t1/descendant::t4 | /descendant::t2/descendant::t3 | /descendant::t2/descendant::t4`
 
