@@ -216,6 +216,7 @@ XPath - `/descendant::*[@class='cValue'][contains(text()='tValue')]`
 - `isFollowing(selector)` equivalent `attribute(new AxisPredicate().selector(Axes.FOLLOWING, selector))`
 - `...`
 
+~
 
     Selector S1 = new Selector().tag("t1"); // /descendant::t1
     
