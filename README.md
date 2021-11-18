@@ -504,5 +504,11 @@ Using in test code:
 We also have the ability to generate selectors at runtime.
 <img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_102.jpg"/>
 
+![](C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_102.jpg)
+
 ![alt text](https://github.com/dkqa/xpath-builder/tree/main/src/test/java/example/Screenshot_102.jpg?raw=true)
+
+![alt text](https://github.com/dkqa/xpath-builder/tree/main/src/test/java/example/Screenshot_102.jpg)
+
+![Screenshot](Screenshot_102.jpg)
 
