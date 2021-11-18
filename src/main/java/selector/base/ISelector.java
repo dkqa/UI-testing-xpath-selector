@@ -5,12 +5,12 @@ import selector.predicates.ISelectorPredicate;
 
 public interface ISelector<T extends ISelector> {
 
-    String getName();
+    T base_axis(Axes axis);
     T tag(String tag);
     T attribute(ISelectorPredicate predicate);
-    T name(String name);
     T axis(Axes axis, T selector);
-    T base_axis(Axes axis);
+    T name(String name);
+    String getName();
     String toXPath();
 
     default T self(T selector) {

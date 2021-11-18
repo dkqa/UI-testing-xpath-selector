@@ -24,8 +24,4 @@ public class AxisPredicate extends SelectorPredicate<AxisPredicate> {
         return res;
     }
 
-    @Override
-    public String predicateName() {
-        return "Axis";
-    }
 }

@@ -8,20 +8,20 @@ public class SelectorPredicateFactory {
         return new AttrPredicate();
     }
 
-    public static AttrPredicate attrAny(String value) {
-        return new AttrPredicate().name("*").value(value);
+    public static AttrPredicate any(String value) {
+        return new AttrPredicate().value(value);
     }
 
-    public static AttrPredicate attrClass(String value) {
+    public static AttrPredicate clazz(String value) {
         return new AttrPredicate().name("class").value(value);
     }
 
-    public static AttrPredicate attrText(String value) {
-        return new AttrPredicate().name("text").value(value);
+    public static AttrPredicate id(String value) {
+        return new AttrPredicate().name("id").value(value);
     }
 
-    public static AttrPredicate attrDot(String value) {
-        return new AttrPredicate().name(".").value(value);
+    public static AttrPredicate text(String value) {
+        return new AttrPredicate().name("text").value(value);
     }
 
 }

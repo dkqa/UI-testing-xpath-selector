@@ -1,12 +1,177 @@
 # xpath-builder
 ***
+At the moment, when testing the UI, a very cumbersome approach to storing locators is used. So was created this library.
+
 This library implements the functionality of the XPath language.
 xPath is built as a Selector object. These objects can interact with each other, which gives flexibility and allows more structured storage of xPaths elements. Using this library, the code has fewer duplicates and is easier to debug.
 ***
 ***
-### Examples
+## 1. Selector
+
+The main object of this library is the `Selector` implements the `ISelector` interface.
+
 ***
-### _Creating Selector object_:
+
+### 1.1. ISelector _interface_
+
+The `ISelector` interface describes the behavior of addressing and has methods:
+
+- `base_axis(Axes axis);`
+- `tag(String tag);` 
+- `attribute(ISelectorPredicate predicate);`
+- `axis(Axes axis, ISelector selector);`
+- `name(String name);`
+- `String getName();`
+- `String toXPath();`
+- Also 'Shortest Methods' for axes such as `descendant(...)`, `following(...)`,... which contain a `axis(...)` method.
+
+***
+
+### 1.2. Selector _class_
+
+A `Selector` can consist of either one node - `/axis::tag[predicate]` or several 
+nodes - `/axis::tag[predicate]/axis::tag[predicate].../axis::tag[predicate]`,
+also possible to create composite nodes - `/axis::tag[predicate]` ` | ` `/axis::tag[predicate]/axis::tag[predicate]` `| ` `...` ` |` `/axis::tag[predicate]`
+
+1) Method `base_axis(Axes axis)` sets the axis to node:
+- When one node - **_`/`axis::`tag[predicate]`_**
+- When several nodes, changes axis for root node - **_`/`axis::`tag[predicate]/axis::tag[predicate]`_**
+- When composite, changes axis for each part in root node - **_`/`axis::`tag[pred]/axis::tag[pred] | ... | /`axis::`tag[pred]/axis::tag[pred]`_**
+
+2) Method `tag(String tag)` sets the tag to node:
+- When one node - **_`/axis::`tag`[predicate]`_**
+- When several nodes, changes tag for last node - **_`/axis::tag[predicate]/axis::`tag`[predicate]`_**
+- When composite, changes tag for each part in last node - **_`/axis::tag[pred]/axis::`tag`[pred] | ... | /axis::tag[pred]/axis::`tag`[pred]`_**
+
+3) Method `attribute(ISelectorPredicate predicate)` sets the predicates to node:
+- When one node - **_`/axis::tag`[predicate]_**
+- When several nodes, adds predicates for last node - **_`/axis::tag[predicate]/axis::tag`[predicate]_**
+- When composite, adds predicates for each part in last node - **_`/axis::tag[pred]/axis::tag`[pred]` | ... | /axis::tag[pred]/axis::tag`[pred]_**
+- You can add as many predicates as you like - `/axis::tag[pred][pred]...[pred]`
+
+4) Also was added Method `replaceAttribute(ISelectorPredicate predicate)` to `Selector`.
+   You can use this method to control incoming predicates, for example, if you want to change position predicate. 
+Example: you have a selector `VAR_SEL` - `/desendant::div[2]`, you can call `VAR_SEL.replaceAttribute(positionPredicate(5))` then XPath will be `/descendant::div[5]`
+ 
+5) Method `axis(Axes axis, ISelector selector)` sets next node. Example: 
+`selector0` => `/axis0::tag0[pred]` then if call
+`selector0.axis(axis1, selector1).axis(axis2, selector2)` => `/axis0::tag0[pred]/axis1::tag1[pred]/axis2::tag2[pred]`.
+Consider in more detail below in the examples of use...
+6) Method `name(String name)` sets selector name, you may need it for logs.
+7) Method `String getName()` returns the name of the selector.
+8) Method `String toXPath()` returns the XPath
+
+***
+***
+
+## 2. Predicates
+
+The predicate is set by the `attribute(ISelectorPredicate predicate)` method. 
+A Predicate object implements `ISelectorPredicate` interface. 
+At the moment there are such objects predicates:
+
+- `AttrPredicate`
+- `AxisPredicate`
+- `PositionPredicate`
+
+You can create your own predicates by implementing `ISelectorPredicate` interface 
+or inheriting `SelectorPredicate` abstract class.
+
+***
+
+### 2.1. ISelectorPredicate _interface_
+
+The interface has only one method:
+- `String toAttr();` - returns string (example `[@class='Value']` depending on your implementation)
+
+***
+
+### 2.2. SelectorPredicate _abstract class_
+
+The class implements `ISelectorPredicate` interface 
+and describes the logic `not` (for example `[not(...)]`).
+- Method `not()`
+
+***
+
+### 2.3. AttrPredicate _class_
+
+The class extends `SelectorPredicate` abstract class. 
+Has the form `[@name='value']` or `[not(@name='value')]` or `[contains(@name,'value')]` or `[not(contains(@name,'value'))]` ...
+
+- Method `name(String name)` sets the name attribute
+- Method `value(String value)` sets the value of parameter name
+- Method `contains()` sets the contains() function
+- Method `not()` sets the not() function
+- Method `normalize_space()` set the normalize_space() function
+
+Examples of using:
+
+- `new AttrPredicate().name("class")` toAttr() => `[@class]` 
+- `new AttrPredicate().name("class").value("myValue")` toAttr() => `[@class='myValue']` 
+- `new AttrPredicate().value("myValue")` toAttr() => `[@*='myValue']` 
+- `new AttrPredicate().name("class").value("myValue").not()` toAttr() => `[not(@class='myValue')]` 
+- `new AttrPredicate().name("class").value("myValue").contains()` toAttr() => `[contains(@class='myValue')]` 
+- `new AttrPredicate().name("class").value("myValue").contains().not()` toAttr() => `[not(contains(@class='myValue'))]` 
+- `new AttrPredicate().name("class").value("myValue").normalize_space()` toAttr() => `[normalize_space(@class)='myValue']` 
+
+Also notes for `text` and `.`:
+- `new AttrPredicate().name("text").value("myValue")` toAttr() => `[text()='myValue']` 
+- `new AttrPredicate().name(".").value("myValue")` toAttr() => `[.='myValue']` 
+
+***
+
+### 2.4. PositionPredicate _class_
+
+The class extends `SelectorPredicate` abstract class. Has the form `[2]` or `[position()>2]` or `[not(position()=3)]` or `[position()=last()]` etc...
+
+- Method `position(int pos)` sets position
+- Method `positionMore(int pos)` sets position and condition `>`
+- Method `positionLess(int pos)` sets position and condition `<`
+- Method `positionMoreOrEqual(int pos)` sets position and condition `>=`
+- Method `positionLessOrEqual(int pos)` sets position and condition `<=`
+- Method `last()` sets position `last()`
+- Method `last(int pos)` sets position `last()-pos`
+- Method `not()` sets the not() function
+
+Examples of using:
+
+- `new PositionPredicate().position(3)` toAttr() => `[3]`
+- `new PositionPredicate().positionMore(3)` toAttr() => `[position()>3]`
+- `new PositionPredicate().positionLess(3)` toAttr() => `[position()<3]`
+- `new PositionPredicate().positionMoreOrEqual(3)` toAttr() => `[position()>=3]`
+- `new PositionPredicate().positionLessOrEqual(3)` toAttr() => `[position()<=3]`
+- `new PositionPredicate().last()` toAttr() => `[position()=last()]`
+- `new PositionPredicate().last(2)` toAttr() => `[position()=last()-2]`
+- `new PositionPredicate().last().not()` toAttr() => `[not(position()=last())]`
+
+Note:
+
+- if you try to use several methods, only the last one will apply - `new PositionPredicate().last(2).positionMore(5).position(12)` toAttr() => `[12]`
+- if you try to use incorrect position `new PositionPredicate().position(-1)` or `new PositionPredicate().position(0)` then toAttr() returns empty string
+
+***
+
+### 2.5. AxisPredicate _class_
+
+The class extends `SelectorPredicate` abstract class. Has the form `[axis::tag[pred]]` or `[not(axis::tag[pred])]` or `[axis::tag[pred] | axis::tag[pred]]` 
+
+- Method `selector(Axes axis, ISelector selector)` sets axis and selector
+- Method `not()` sets the not() function
+
+Examples of using:
+
+- `new AxisPredicate().selector(Axes.FOLLOWING, anySelector)` toAttr() => `[following::tag[pred]]` depending on which selector entered
+- `new AxisPredicate().selector(Axes.FOLLOWING, anySelector).not()` toAttr() => `[not(following::tag[pred])]`
+
+***
+***
+
+## 3. _Examples of using Selector_
+
+***
+
+### 3.1. _Creating Selector object_:
     
     new Selector();
 
@@ -15,7 +180,7 @@ Selector has method `String toXPath();` which return XPath as a String value
 By default, the selector has `/descendant::*` XPath
 ***
 
-### _Set tag:_
+### 3.2. _Set tag:_
 
 Method: `tag(String tag)`
 
@@ -24,87 +189,67 @@ Method: `tag(String tag)`
 XPath - `/descendant::div`
 ***
 
-### _Set attribute_:
+### 3.3. _Set attributes_:
 
-Method: `attribute(String attr, String value, boolean contains, boolean enabled)`
+1) Method: `attribute(ISelectorPredicate predicate)`
 
-    new Selector().attribute("class", "value", false, true);
+
+    new Selector().attribute(new AttrPredicate().name("class").value("value"));
 
 XPath - `/descendant::*[@class='value']`
 
-If `contains` is `true` -  `/descendant::*[contains(@class,'value')]`
+2) We have the ability to add several attributes:
 
-If `enabled` is `false` - `/descendant::*[not(@class='value')]`
+
+    new Selector()
+            .attribute(new AttrPredicate().name("class").value("cValue"))
+            .attribute(new AttrPredicate().name("text").value("tValue").contains());
+
+XPath - `/descendant::*[@class='cValue'][contains(text()='tValue')]`
+
+3) Selector has simplified methods for `AxisPredicate`
+
+- `isDescendant(selector)` equivalent `attribute(new AxisPredicate().selector(Axes.DESCENDANT, selector))`
+- `isNotDescendant(selector)` equivalent `attribute(new AxisPredicate().selector(Axes.DESCENDANT, selector)).not()`
+- `isFollowing(selector)` equivalent `attribute(new AxisPredicate().selector(Axes.FOLLOWING, selector))`
+- `...`
+
+
+    Selector S1 = new Selector().tag("t1"); // /descendant::t1
+    
+    new Selector().tag("t2").isFollowing(S1); // /descendant::t2[following::t1]  
+
+XPath - `/descendant::t2[following::t1]`
+
+4) Method `position(int pos)` equivalent `attribute(new PositionPredicate().position(pos))`
+
+
+    new Selector().position(3);
+
+XPath - `/descendant::*[3]`
+
+
 ***
 
-### _Set text attribute:_
-
-Method: `text(String text, boolean dot, boolean contains, boolean enabled)`
-
-    new Selector().text("myText", false, false, true);
-
-XPath - `/descendant::*[text()='myText']`
-
-If `dot` is `true` - `/descendant::*[.='myText']`
-
-If `contains` is `true` -  `/descendant::*[contains(text(),'myText')]`
-
-If `enabled` is `false` - `/descendant::*[not(text()='myText')]`
-***
-
-### _Set axial attribute:_
-
-Method: `axis_attribute(Axes axis, Selector selector, boolean enabled)`
-
-    Selector selector1 = new Selector().tag("myTag"); 
-
-    new Selector().axis_attribute(Axes.CHILD, selector1, true);
-
-XPath - `/descendant::*[child::myTag]`
-
-If `enabled` is `false` - `/descendant::*[not(child::myTag)]`
-
-Also, Selector has simplified methods:
-
-`isDesendant(Selector selector)` equivalent `axis_attribute(Axes.DESCENDANT, selector, true)`
-
-`isNotDesendant(Selector selector)` equivalent `axis_attribute(Axes.DESCENDANT, selector, false)`
-
-...etc for each axis
-***
-
-### _Set position:_
-
-Method: `position(int pos)`
-
-    new Selector().position(12);
-
-XPath - `/descendant::*[12]`
-
-If `position` <= `0` - `/descendant::*`
-***
-
-### _Set axis with other selector:_
+### 3.4. Set Axis with other selectors
 
 Method: `axis(Axes axis, Selector selector)`
 
-    Selector S1 = new Selector().tag("s1");
-    Selector S2 = new Selector().tag("s2");
-    
-    S1.axis(Axes.FOLLOWING, S2);
+- method `descendant(selector)` equivalent `axis(Axes.DESCENDANT, selector)`
+- method `following(selector)` equivalent `axis(Axes.FOLLOWING, selector)`
+- `...`
 
-XPath - `/descendant::s1/following::s2`
 
-Also, Selector has simplified methods:
+    Selector S1 = new Selector().tag("t1");
+    Selector S2 = new Selector().tag("t2");
 
-`desendant(Selector selector)` equivalent `axis(Axes.DESCENDANT, selector)`
+    S1.following(S2);
 
-`following(Selector selector)` equivalent `axis(Axes.FOLLOWING, selector)`
+XPath - `/descendant::t1/following::t2`
 
-...etc for each axis
 ***
 
-### _Set name (this can come in handy for logs):_
+### 3.5. _Set name (this can come in handy for logs):_
 
 Method: `name(String name)`
 
@@ -128,20 +273,117 @@ Name - `(List - Item - Name)`
 
 But if you set name for `RESULT`, `RESULT.name("New Name")` then name - `(New Name)`
 ***
-### _Set composing selector:_
+### 3.6. _Set composing selector:_
 
-    Selector S1 = new Selector().tag("s1");
-    Selector S2 = new Selector().tag("s2");
-    Selector S3 = new Selector().tag("s3");
+1) Creating
+
+
+    Selector S1 = new Selector().tag("t1");
+    Selector S2 = new Selector().tag("t2");
+    Selector S3 = new Selector().tag("t3");
 
     Selector COMPOSING = new Selector(S1, S2, S3);
 
-XPath - `/descendant::s1 | /descendant::s2 | /descendant::s3`
+XPath - `/descendant::t1 | /descendant::t2 | /descendant::t3`
 
-If you set any attribute (`axis(...), attribute(...), text(...), tag(...), position(...), etc...`) for the composing selector, example `COMPOSING.position(3)` for each selector position will be added - `/descendant::s1[3] | /descendant::s2[3] | /descendant::s3[3]`
+2) Add Axis
+
+
+    Selector S1 = new Selector().tag("t1");
+    Selector S2 = new Selector().tag("t2");
+    Selector S3 = new Selector().tag("t3");
+
+    Selector COMPOSING = new Selector(S1, S2, S3);
+
+    Selector S4 = new Selector().tag("t4);
+
+    COMPOSING.descendant(S4);
+
+XPath - `/descendant::t1/descendant::t4 | /descendant::t2/descendant::t4 | /descendant::t3/descendant::t4`
+
+3) Add Attribute
+
+
+    Selector S1 = new Selector().tag("t1");
+    Selector S2 = new Selector().tag("t2");
+    Selector S3 = new Selector().tag("t3");
+
+    Selector COMPOSING = new Selector(S1, S2, S3);
+
+    Selector S4 = new Selector().tag("t4);
+
+    COMPOSING.isNotDescendant(S4);
+
+XPath - `/descendant::t1[descendant::t4] | /descendant::t2[descendant::t4] | /descendant::t3[descendant::t4]`
+
+**...or...**
+
+    Selector S1 = new Selector().tag("t1");
+    Selector S2 = new Selector().tag("t2");
+    Selector S3 = new Selector().tag("t3");
+
+    Selector COMPOSING = new Selector(S1, S2, S3);
+
+    Selector S4 = new Selector().tag("t4);
+
+    COMPOSING.position(3);
+
+XPath - `/descendant::t1[3] | /descendant::t2[3] | /descendant::t3[3]`
+
+4) Axis with composing selector
+
+
+    Selector S1 = new Selector().tag("t1");
+    Selector S2 = new Selector().tag("t2");
+    Selector S3 = new Selector().tag("t3");
+
+    Selector COMPOSING = new Selector(S1, S2, S3);
+
+    Selector S4 = new Selector().tag("t4);
+
+    S4.descendant(COMPOSING);
+
+XPath - `/descendant::t4/descendant::t1 | /descendant::t4/descendant::t2 | /descendant::t4/descendant::t3`
+
+
+5) Attribute with composing selector
+
+
+    Selector S1 = new Selector().tag("t1");
+    Selector S2 = new Selector().tag("t2");
+    Selector S3 = new Selector().tag("t3");
+
+    Selector COMPOSING = new Selector(S1, S2, S3);
+
+    Selector S4 = new Selector().tag("t4);
+
+    S4.isDescendant(COMPOSING);
+
+XPath - `/descendant::t4[descendant::t1 | /descendant::t2 | /descendant::t3]`
+
+6) Composing selector Axis with Composing selector 
+
+
+    Selector S1 = new Selector().tag("t1");
+    Selector S2 = new Selector().tag("t2");
+    Selector COMPOSING_1 = new Selector(S1, S2); // /descendant::t1 | /descendant::t2
+
+    Selector S3 = new Selector().tag("t3");
+    Selector S4 = new Selector().tag("t4);
+    Selector COMPOSING_2 = new Selector(S3, S4); // /descendant::t3 | /descendant::t4
+
+    COMPOSING_1.descendant(COMPOSING_2);
+
+XPath - `/descendant::t1/descendant::t3 | /descendant::t1/descendant::t4 | /descendant::t2/descendant::t3 | /descendant::t2/descendant::t4`
+
 ***
 ***
-# For simplified using was created class `SelectorFactory`
+
+## 4. For simplified using was created `SelectorFactory` and `SelectorPredicateFactory` classes
+
+***
+
+### 4.1. SelectorFactory _class_
 
 For example, the following methods have been added to `SelectorFactory`:
 
@@ -157,22 +399,48 @@ For example, the following methods have been added to `SelectorFactory`:
         return new Selector().tag(tag);
     }
 
-    public static Selector text(String text) {
-        return new Selector().text(text, false, false, true);
+    public static Selector textSelector(String text) {
+        return new Selector().attribute(new AttrPredicate().value("text").value(text));
     }
 
     public static Selector div(String attrValue) {
-        return new Selector().tag("div").attribute("*", attrValue, false, true);
+        return new Selector().tag("div").attribute(new AttrPredicate().value(attrValue));
     }
 
     public static Selector div_contains(String attrValue) {
-        return new Selector().tag("div").attribute("*", attrValue, true, true);
+        return new Selector().tag("div").attribute(new AttrPredicate().value(attrValue).contains());
     }
 
 I suggest you create your own factory methods for your project
+
+***
+
+### 4.2. SelectorPredicateFactory _class_
+
+    public static AttrPredicate attr() {
+        return new AttrPredicate();
+    }
+
+    public static AttrPredicate any(String value) {
+        return new AttrPredicate().value(value);
+    }
+
+    public static AttrPredicate clazz(String value) {
+        return new AttrPredicate().name("class").value(value);
+    }
+
+    public static AttrPredicate id(String value) {
+        return new AttrPredicate().name("id").value(value);
+    }
+
+    public static AttrPredicate text(String value) {
+        return new AttrPredicate().name("text").value(value);
+    }
+
 ***
 ***
-# Also, to reduce code duplication, the `hashCode` logic was added
+
+## 5. Also, to reduce code duplication, the `hashCode` logic was added
 Example
 
 We have any list which contains cards and blocked cards
@@ -206,4 +474,34 @@ It can also be used directly in the test, where there is some dynamic value.
         anyAssert(CARD.isDescendantText(dynamicValue).descendant(CARD_NAME));
     }
 
-P.S. The `hashCode` is saved only when using methods `axis_attribute(...)` or `isDescendant(...), etc...`, `position(...)` and `name(...)`
+***
+***
+
+## 6. Live example
+
+We have page https://www.bookvoed.ru/books?genre=2
+
+<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_10.jpg"/>
+
+Create class for with.
+
+<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_12.jpg"/>
+
+In the `BookvoedPage.BookHit` class we have described all the elements related to books with the Hit mark.
+
+<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_101.jpg"/>
+
+
+Thanks to the hash-code logic, we got rid of unnecessary duplicates and our page looks neatly described. 
+And if the value of the class attribute changes somewhere, then we just need to change it in one place.
+
+Using in test code:
+
+<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_14.jpg"/>
+
+<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_15.jpg"/>
+
+We also have the ability to generate selectors at runtime.
+<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_102.jpg"/>
+
+

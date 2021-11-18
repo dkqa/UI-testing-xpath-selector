@@ -49,7 +49,7 @@ class NodeSelector implements ISelector<NodeSelector> {
     public NodeSelector replaceAttribute(ISelectorPredicate predicate) {
         NodeSelector res = new NodeSelector(this, true);
         res.attributes = res.attributes.stream()
-                .filter(a -> !a.predicateName().equals(predicate.predicateName()))
+                .filter(a -> !a.getClass().getName().equals(predicate.getClass().getName()))
                 .collect(Collectors.toList());
         res.attributes.add(predicate);
         return res;

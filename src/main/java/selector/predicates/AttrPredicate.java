@@ -42,8 +42,4 @@ public class AttrPredicate extends SelectorPredicate<AttrPredicate> {
         return res;
     }
 
-    @Override
-    public String predicateName() {
-        return "Attribute";
-    }
 }

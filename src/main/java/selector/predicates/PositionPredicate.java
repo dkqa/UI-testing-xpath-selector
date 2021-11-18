@@ -10,39 +10,45 @@ public class PositionPredicate extends SelectorPredicate<PositionPredicate> {
     public PositionPredicate position(int pos) {
         position = Math.max(pos, 0);
         operator = Operator.EQUAL;
+        last = false;
         return this;
     }
 
     public PositionPredicate positionMore(int pos) {
         position = Math.max(pos, 0);
         operator = Operator.MORE;
+        last = false;
         return this;
     }
 
     public PositionPredicate positionLess(int pos) {
         position = Math.max(pos, 0);
         operator = Operator.LESS;
+        last = false;
         return this;
     }
 
     public PositionPredicate positionMoreOrEqual(int pos) {
         position = Math.max(pos, 0);
         operator = Operator.MORE_OR_EQUAL;
+        last = false;
         return this;
     }
 
     public PositionPredicate positionLessOrEqual(int pos) {
         position = Math.max(pos, 0);
         operator = Operator.LESS_OR_EQUAL;
+        last = false;
         return this;
     }
 
     public PositionPredicate last() {
+        endPosition = 0;
         last = true;
         return this;
     }
 
-    public PositionPredicate fromEnd(int pos) {
+    public PositionPredicate last(int pos) {
         endPosition = Math.max(pos, 0);
         last = true;
         return this;
@@ -62,11 +68,6 @@ public class PositionPredicate extends SelectorPredicate<PositionPredicate> {
             res = (endPosition > 0) ? "position()=last()-" + endPosition : "position()=last()";
         }
         return res;
-    }
-
-    @Override
-    public String predicateName() {
-        return "Position";
     }
 
     private enum Operator {

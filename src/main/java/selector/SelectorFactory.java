@@ -3,7 +3,7 @@ package selector;
 import selector.base.Selector;
 import selector.predicates.AttrPredicate;
 
-import static selector.SelectorPredicateFactory.attrAny;
+import static selector.SelectorPredicateFactory.any;
 
 public class SelectorFactory {
 
@@ -19,16 +19,16 @@ public class SelectorFactory {
         return new Selector().tag(tag);
     }
 
-    public static Selector text(String text) {
+    public static Selector textSelector(String text) {
         return new Selector().attribute(new AttrPredicate().value("text").value(text));
     }
 
     public static Selector div(String attrValue) {
-        return new Selector().tag("div").attribute(new AttrPredicate().name("*").value(attrValue));
+        return new Selector().tag("div").attribute(new AttrPredicate().value(attrValue));
     }
 
     public static Selector div_contains(String attrValue) {
-        return new Selector().tag("div").attribute(attrAny(attrValue).contains());
+        return new Selector().tag("div").attribute(new AttrPredicate().value(attrValue).contains());
     }
 
     public static Selector table(String attrValue) {
