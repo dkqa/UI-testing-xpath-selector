@@ -26,7 +26,7 @@ public class BookvoedTest {
 
     @Test
     public void testAuthor() {
-        click(BOOK.isDescendantText("Author Name").descendant(Book.TITLE));
+        click(BOOK.isDescendantText("Author Name").descendant(Book.BUTTON_BUY));
     }
 
 }

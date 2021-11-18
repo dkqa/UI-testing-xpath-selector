@@ -502,5 +502,4 @@ Using in test code:
 ![Screenshot_15](https://user-images.githubusercontent.com/38009604/142426218-fee8139f-1bdd-4158-8fd7-fd0572d62bca.jpg)
 
 We also have the ability to generate selectors at runtime.
-![Screenshot_102](https://user-images.githubusercontent.com/38009604/142426252-818ef15d-3d18-4fb8-94cd-ec3dfc5aeec6.jpg)
-
+![Screenshot_103](https://user-images.githubusercontent.com/38009604/142426723-57c433b1-d3b4-46b3-8edd-caf2cc27d57f.jpg)
