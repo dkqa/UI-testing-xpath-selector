@@ -481,7 +481,7 @@ It can also be used directly in the test, where there is some dynamic value.
 
 We have page https://www.bookvoed.ru/books?genre=2
 
-<img src="C:\Users\User1\IdeaProjects\xpath-builder\src\test\java\example\Screenshot_10.jpg"/>
+![Screenshot_10](https://user-images.githubusercontent.com/38009604/142425662-3994620f-4f03-402e-abb1-ae55e4200d2a.jpg)
 
 Create class for with.
 
