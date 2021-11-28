@@ -1,4 +1,4 @@
-package selector.predicates;
+package com.dkqa.selector.predicates;
 
 public abstract class SelectorPredicate<T extends SelectorPredicate> implements ISelectorPredicate {
 

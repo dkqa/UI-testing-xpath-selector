@@ -1,6 +1,6 @@
-package selector;
+package com.dkqa.selector;
 
-import selector.predicates.AttrPredicate;
+import com.dkqa.selector.predicates.AttrPredicate;
 
 public class SelectorPredicateFactory {
 

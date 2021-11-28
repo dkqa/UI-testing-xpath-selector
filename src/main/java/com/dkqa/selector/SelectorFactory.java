@@ -1,9 +1,7 @@
-package selector;
+package com.dkqa.selector;
 
-import selector.base.Selector;
-import selector.predicates.AttrPredicate;
-
-import static selector.SelectorPredicateFactory.any;
+import com.dkqa.selector.base.Selector;
+import com.dkqa.selector.predicates.AttrPredicate;
 
 public class SelectorFactory {
 

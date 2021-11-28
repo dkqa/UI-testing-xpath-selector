@@ -1,9 +1,9 @@
-package selector;
+package com.dkqa.selector;
 
 import org.junit.Assert;
 import org.junit.Test;
-import selector.base.Selector;
-import selector.predicates.AttrPredicate;
+import com.dkqa.selector.base.Selector;
+import com.dkqa.selector.predicates.AttrPredicate;
 
 public class TextAttributeSelectorTest {
 

@@ -2,9 +2,9 @@ package example;
 
 // https://www.bookvoed.ru/books?genre=2
 
-import selector.base.Selector;
+import com.dkqa.selector.base.Selector;
 
-import static selector.SelectorFactory.div;
+import static com.dkqa.selector.SelectorFactory.div;
 
 public class BookvoedPage {
 

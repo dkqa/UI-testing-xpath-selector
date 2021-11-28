@@ -1,4 +1,4 @@
-package selector;
+package com.dkqa.selector;
 
 public enum Axes {
 

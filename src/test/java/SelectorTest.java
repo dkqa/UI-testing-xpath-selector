@@ -1,6 +1,6 @@
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import selector.*;
+import com.dkqa.selector.*;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

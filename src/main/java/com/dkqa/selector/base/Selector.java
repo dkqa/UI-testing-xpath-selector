@@ -1,10 +1,10 @@
-package selector.base;
+package com.dkqa.selector.base;
 
-import selector.Axes;
-import selector.predicates.AttrPredicate;
-import selector.predicates.AxisPredicate;
-import selector.predicates.ISelectorPredicate;
-import selector.predicates.PositionPredicate;
+import com.dkqa.selector.Axes;
+import com.dkqa.selector.predicates.AttrPredicate;
+import com.dkqa.selector.predicates.AxisPredicate;
+import com.dkqa.selector.predicates.ISelectorPredicate;
+import com.dkqa.selector.predicates.PositionPredicate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +46,14 @@ public class Selector implements ISelector<Selector> {
                 .map(s -> s.attribute(predicate))
                 .collect(Collectors.toList());
         return res;    
+    }
+
+    public Selector replaceAttribute(ISelectorPredicate predicate) {
+        Selector res = new Selector(this);
+        res.selectors = res.selectors.stream()
+                .map(s -> s.replaceAttribute(predicate))
+                .collect(Collectors.toList());
+        return res;
     }
 
     public Selector name(String name) {
@@ -91,11 +99,7 @@ public class Selector implements ISelector<Selector> {
     }
 
     public Selector position(int pos) {
-        Selector res = new Selector(this);
-        res.selectors = res.selectors.stream()
-                .map(s -> s.replaceAttribute(new PositionPredicate().position(pos)))
-                .collect(Collectors.toList());
-        return res;
+        return this.replaceAttribute(new PositionPredicate().position(pos));
     }
 
     public String toString() {

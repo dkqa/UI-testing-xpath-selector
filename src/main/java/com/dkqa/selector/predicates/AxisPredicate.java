@@ -1,7 +1,7 @@
-package selector.predicates;
+package com.dkqa.selector.predicates;
 
-import selector.Axes;
-import selector.base.ISelector;
+import com.dkqa.selector.Axes;
+import com.dkqa.selector.base.ISelector;
 
 public class AxisPredicate extends SelectorPredicate<AxisPredicate> {
 

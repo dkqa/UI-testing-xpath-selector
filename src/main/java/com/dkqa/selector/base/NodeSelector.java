@@ -1,8 +1,8 @@
-package selector.base;
+package com.dkqa.selector.base;
 
-import selector.Axes;
-import selector.predicates.ISelectorPredicate;
-import selector.predicates.PositionPredicate;
+import com.dkqa.selector.Axes;
+import com.dkqa.selector.predicates.ISelectorPredicate;
+import com.dkqa.selector.predicates.PositionPredicate;
 
 import java.util.ArrayList;
 import java.util.List;

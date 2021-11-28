@@ -1,7 +1,7 @@
-package selector.base;
+package com.dkqa.selector.base;
 
-import selector.Axes;
-import selector.predicates.ISelectorPredicate;
+import com.dkqa.selector.Axes;
+import com.dkqa.selector.predicates.ISelectorPredicate;
 
 public interface ISelector<T extends ISelector> {
 

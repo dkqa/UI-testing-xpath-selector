@@ -1,7 +1,7 @@
 package example;
 
 import org.junit.Test;
-import selector.base.Selector;
+import com.dkqa.selector.base.Selector;
 
 import static example.BookvoedPage.BOOK;
 import static example.BookvoedPage.SALE_ICON;

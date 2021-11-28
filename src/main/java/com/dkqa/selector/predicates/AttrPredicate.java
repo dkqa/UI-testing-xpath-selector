@@ -1,4 +1,4 @@
-package selector.predicates;
+package com.dkqa.selector.predicates;
 
 public class AttrPredicate extends SelectorPredicate<AttrPredicate> {
 
