@@ -1,4 +1,4 @@
-# xpath-builder
+# UI-testing-xpath-selector
 ***
 At the moment, when testing the UI, a very cumbersome approach to storing locators is used. So was created this library.
 
