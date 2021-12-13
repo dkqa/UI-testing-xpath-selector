@@ -1,5 +1,6 @@
 package com.dkqa.selector;
 
+import com.dkqa.selector.predicates.TextPredicate;
 import org.junit.Assert;
 import org.junit.Test;
 import com.dkqa.selector.base.Selector;
@@ -41,7 +42,7 @@ public class AxisSelectorTest {
         Selector ITEM = BASE.descendant(new Selector().tag("item"));
         Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
         Assert.assertEquals("/descendant::base/descendant::item[text()='text']/descendant::item_name",
-                ITEM.attribute(new AttrPredicate().name("text").value("text")).descendant(ITEM_NAME).toXPath());
+                ITEM.attribute(new TextPredicate().value("text")).descendant(ITEM_NAME).toXPath());
     }
 
     @Test

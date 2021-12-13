@@ -33,7 +33,7 @@ public class AttrPredicate extends SelectorPredicate<AttrPredicate> {
             attrName = "*";
         }
         if (attrName != null) {
-            String var1 = (attrName.equals("text")) ? "text()" : (attrName.equals(".")) ? "." : "@" + attrName;
+            String var1 = "@" + attrName;
             String var2 = String.format((normalizeSpace) ? "normalize-space(%s)" : "%s", var1);
             String var3 = (attrValue == null) ? var2 : String.format((contains) ? "%s,'%s'" : "%s='%s'", var2, attrValue);
             res = String.format((contains) ? "contains(%s)" : "%s", var3);
