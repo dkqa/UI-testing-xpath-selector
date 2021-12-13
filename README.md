@@ -115,9 +115,6 @@ Examples of using:
 - `new AttrPredicate().name("class").value("myValue").contains().not()` toAttr() => `[not(contains(@class='myValue'))]` 
 - `new AttrPredicate().name("class").value("myValue").normalize_space()` toAttr() => `[normalize_space(@class)='myValue']` 
 
-Also notes for `text` and `.`:
-- `new AttrPredicate().name("text").value("myValue")` toAttr() => `[text()='myValue']` 
-- `new AttrPredicate().name(".").value("myValue")` toAttr() => `[.='myValue']` 
 
 ***
 
@@ -163,6 +160,13 @@ Examples of using:
 
 - `new AxisPredicate().com.dkqa.selector(Axes.FOLLOWING, anySelector)` toAttr() => `[following::tag[pred]]` depending on which com.dkqa.selector entered
 - `new AxisPredicate().com.dkqa.selector(Axes.FOLLOWING, anySelector).not()` toAttr() => `[not(following::tag[pred])]`
+
+***
+
+### 2.6. And others predicate
+
+- `TextPredicate` class (example: `//*[text()='value']`, `//*[contains(text()'value')]`, `//*[not(text()='value')]` ...)
+- `DotPredicate` class (example: `//*[.='value']` ...)
 
 ***
 ***
