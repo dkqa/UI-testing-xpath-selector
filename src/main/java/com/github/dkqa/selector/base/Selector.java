@@ -23,10 +23,7 @@
 package com.github.dkqa.selector.base;
 
 import com.github.dkqa.selector.Axes;
-import com.github.dkqa.selector.predicates.AttrPredicate;
-import com.github.dkqa.selector.predicates.AxisPredicate;
-import com.github.dkqa.selector.predicates.ISelectorPredicate;
-import com.github.dkqa.selector.predicates.PositionPredicate;
+import com.github.dkqa.selector.predicates.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -192,18 +189,18 @@ public class Selector implements ISelector<Selector> {
     }
 
     public Selector isDescendantText(String text) {
-        return this.isDescendant(new Selector().attribute(new AttrPredicate().name("text").value(text)));
+        return this.isDescendant(new Selector().attribute(new TextPredicate().value(text)));
     }
 
     public Selector isDescendantTextContains(String text) {
-        return this.isDescendant(new Selector().attribute(new AttrPredicate().name("text").value(text).contains()));
+        return this.isDescendant(new Selector().attribute(new TextPredicate().value(text).contains()));
     }
 
     public Selector isNotDescendantText(String text) {
-        return this.isNotDescendant(new Selector().attribute(new AttrPredicate().name("text").value(text).not()));
+        return this.isNotDescendant(new Selector().attribute(new TextPredicate().value(text).not()));
     }
 
     public Selector isNotDescendantTextContains(String text) {
-        return this.isNotDescendant(new Selector().attribute(new AttrPredicate().name("text").value(text).contains().not()));
+        return this.isNotDescendant(new Selector().attribute(new TextPredicate().value(text).contains().not()));
     }
 }
