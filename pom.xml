@@ -6,7 +6,33 @@
 
     <groupId>com.github.dkqa</groupId>
     <artifactId>ui-testing-xpath</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
+
+    <name>UI testing xPath</name>
+    <description>Locators in UI testing</description>
+    <url>https://github.com/dkqa/ui-testing-xpath</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Danil Koptlov</name>
+            <email>dkqmoto@gmail.com</email>
+            <organization>com.github.dkqa</organization>
+            <organizationUrl>https://github.com/dkqa</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/dkqa/ui-testing-xpath.git</connection>
+        <developerConnection>scm:git:ssh://github.com:dkqa/ui-testing-xpath.git</developerConnection>
+        <url>http://github.com/dkqa/ui-testing-xpath</url>
+    </scm>
 
     <build>
         <plugins>
