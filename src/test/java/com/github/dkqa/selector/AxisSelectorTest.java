@@ -1,10 +1,10 @@
-package com.dkqa.selector;
+package com.github.dkqa.selector;
 
-import com.dkqa.selector.predicates.TextPredicate;
+import com.github.dkqa.selector.predicates.TextPredicate;
 import org.junit.Assert;
 import org.junit.Test;
-import com.dkqa.selector.base.Selector;
-import com.dkqa.selector.predicates.AttrPredicate;
+import com.github.dkqa.selector.base.Selector;
+import com.github.dkqa.selector.predicates.AttrPredicate;
 
 public class AxisSelectorTest {
 

@@ -1,4 +1,4 @@
-# UI-testing-xpath-selector
+# UI-testing-xpath
 ***
 At the moment, when testing the UI, a very cumbersome approach to storing locators is used. So was created this library.
 
@@ -19,7 +19,7 @@ The `ISelector` interface describes the behavior of addressing and has methods:
 - `base_axis(Axes axis);`
 - `tag(String tag);` 
 - `attribute(ISelectorPredicate predicate);`
-- `axis(Axes axis, ISelector com.dkqa.selector);`
+- `axis(Axes axis, ISelector com.github.dkqa.selector);`
 - `name(String name);`
 - `String getName();`
 - `String toXPath();`
@@ -51,14 +51,14 @@ also possible to create composite nodes - `/axis::tag[predicate]` ` | ` `/axis::
 
 4) Also was added Method `replaceAttribute(ISelectorPredicate predicate)` to `Selector`.
    You can use this method to control incoming predicates, for example, if you want to change position predicate. 
-Example: you have a com.dkqa.selector `VAR_SEL` - `/desendant::div[2]`, you can call `VAR_SEL.replaceAttribute(positionPredicate(5))` then XPath will be `/descendant::div[5]`
+Example: you have a com.github.dkqa.selector `VAR_SEL` - `/desendant::div[2]`, you can call `VAR_SEL.replaceAttribute(positionPredicate(5))` then XPath will be `/descendant::div[5]`
  
-5) Method `axis(Axes axis, ISelector com.dkqa.selector)` sets next node. Example: 
+5) Method `axis(Axes axis, ISelector com.github.dkqa.selector)` sets next node. Example: 
 `selector0` => `/axis0::tag0[pred]` then if call
 `selector0.axis(axis1, selector1).axis(axis2, selector2)` => `/axis0::tag0[pred]/axis1::tag1[pred]/axis2::tag2[pred]`.
 Consider in more detail below in the examples of use...
-6) Method `name(String name)` sets com.dkqa.selector name, you may need it for logs.
-7) Method `String getName()` returns the name of the com.dkqa.selector.
+6) Method `name(String name)` sets com.github.dkqa.selector name, you may need it for logs.
+7) Method `String getName()` returns the name of the com.github.dkqa.selector.
 8) Method `String toXPath()` returns the XPath
 
 ***
@@ -153,13 +153,13 @@ Note:
 
 The class extends `SelectorPredicate` abstract class. Has the form `[axis::tag[pred]]` or `[not(axis::tag[pred])]` or `[axis::tag[pred] | axis::tag[pred]]` 
 
-- Method `com.dkqa.selector(Axes axis, ISelector com.dkqa.selector)` sets axis and com.dkqa.selector
+- Method `com.github.dkqa.selector(Axes axis, ISelector com.github.dkqa.selector)` sets axis and com.github.dkqa.selector
 - Method `not()` sets the not() function
 
 Examples of using:
 
-- `new AxisPredicate().com.dkqa.selector(Axes.FOLLOWING, anySelector)` toAttr() => `[following::tag[pred]]` depending on which com.dkqa.selector entered
-- `new AxisPredicate().com.dkqa.selector(Axes.FOLLOWING, anySelector).not()` toAttr() => `[not(following::tag[pred])]`
+- `new AxisPredicate().com.github.dkqa.selector(Axes.FOLLOWING, anySelector)` toAttr() => `[following::tag[pred]]` depending on which com.github.dkqa.selector entered
+- `new AxisPredicate().com.github.dkqa.selector(Axes.FOLLOWING, anySelector).not()` toAttr() => `[not(following::tag[pred])]`
 
 ***
 
@@ -181,7 +181,7 @@ Examples of using:
 
 Selector has method `String toXPath();` which return XPath as a String value
 
-By default, the com.dkqa.selector has `/descendant::*` XPath
+By default, the com.github.dkqa.selector has `/descendant::*` XPath
 ***
 
 ### 3.2. _Set tag:_
@@ -215,9 +215,9 @@ XPath - `/descendant::*[@class='cValue'][contains(text()='tValue')]`
 
 3 ) Selector has simplified methods for `AxisPredicate`
 
-- `isDescendant(com.dkqa.selector)` equivalent `attribute(new AxisPredicate().com.dkqa.selector(Axes.DESCENDANT, com.dkqa.selector))`
-- `isNotDescendant(com.dkqa.selector)` equivalent `attribute(new AxisPredicate().com.dkqa.selector(Axes.DESCENDANT, com.dkqa.selector)).not()`
-- `isFollowing(com.dkqa.selector)` equivalent `attribute(new AxisPredicate().com.dkqa.selector(Axes.FOLLOWING, com.dkqa.selector))`
+- `isDescendant(com.github.dkqa.selector)` equivalent `attribute(new AxisPredicate().com.github.dkqa.selector(Axes.DESCENDANT, com.github.dkqa.selector))`
+- `isNotDescendant(com.github.dkqa.selector)` equivalent `attribute(new AxisPredicate().com.github.dkqa.selector(Axes.DESCENDANT, com.github.dkqa.selector)).not()`
+- `isFollowing(com.github.dkqa.selector)` equivalent `attribute(new AxisPredicate().com.github.dkqa.selector(Axes.FOLLOWING, com.github.dkqa.selector))`
 - `...`
 
 ~
@@ -242,10 +242,10 @@ XPath - `/descendant::*[3]`
 
 ### 3.4. Set Axis with other selectors
 
-Method: `axis(Axes axis, Selector com.dkqa.selector)`
+Method: `axis(Axes axis, Selector com.github.dkqa.selector)`
 
-- method `descendant(com.dkqa.selector)` equivalent `axis(Axes.DESCENDANT, com.dkqa.selector)`
-- method `following(com.dkqa.selector)` equivalent `axis(Axes.FOLLOWING, com.dkqa.selector)`
+- method `descendant(com.github.dkqa.selector)` equivalent `axis(Axes.DESCENDANT, com.github.dkqa.selector)`
+- method `following(com.github.dkqa.selector)` equivalent `axis(Axes.FOLLOWING, com.github.dkqa.selector)`
 - `...`
 
 ~
@@ -273,7 +273,7 @@ Selector has method `String getName();` which return the name
 
 Name - `(My name)`
 
-If name wasn't initialized then the method `getName()` return XPath of the com.dkqa.selector
+If name wasn't initialized then the method `getName()` return XPath of the com.github.dkqa.selector
 
 P.S. selectors names add up, example:
 
@@ -289,7 +289,7 @@ Name - `(List - Item - Name)`
 
 But if you set name for `RESULT`, `RESULT.name("New Name")` then name - `(New Name)`
 ***
-### 3.6. _Set composing com.dkqa.selector:_
+### 3.6. _Set composing com.github.dkqa.selector:_
 
 1 ) Creating
 
@@ -351,7 +351,7 @@ XPath - `/descendant::t1[descendant::t4] | /descendant::t2[descendant::t4] | /de
 
 XPath - `/descendant::t1[3] | /descendant::t2[3] | /descendant::t3[3]`
 
-4 ) Axis with composing com.dkqa.selector
+4 ) Axis with composing com.github.dkqa.selector
 
 
     Selector S1 = new Selector().tag("t1");
@@ -368,7 +368,7 @@ XPath - `/descendant::t1[3] | /descendant::t2[3] | /descendant::t3[3]`
 XPath - `/descendant::t4/descendant::t1 | /descendant::t4/descendant::t2 | /descendant::t4/descendant::t3`
 
 
-5 ) Attribute with composing com.dkqa.selector
+5 ) Attribute with composing com.github.dkqa.selector
 
 
     Selector S1 = new Selector().tag("t1");
@@ -384,7 +384,7 @@ XPath - `/descendant::t4/descendant::t1 | /descendant::t4/descendant::t2 | /desc
 
 XPath - `/descendant::t4[descendant::t1 | /descendant::t2 | /descendant::t3]`
 
-6 ) Composing com.dkqa.selector Axis with Composing com.dkqa.selector 
+6 ) Composing com.github.dkqa.selector Axis with Composing com.github.dkqa.selector 
 
 
     Selector S1 = new Selector().tag("t1");
@@ -411,7 +411,7 @@ XPath - `/descendant::t1/descendant::t3 | /descendant::t1/descendant::t4 | /desc
 
 For example, the following methods have been added to `SelectorFactory`:
 
-    public static Selector com.dkqa.selector() {
+    public static Selector com.github.dkqa.selector() {
         return new Selector();
     }
 
@@ -471,9 +471,9 @@ We have any list which contains cards and blocked cards
 
 Let's denote the list and card selectors
 
-    import com.dkqa.selector.base.Selector;
+    import com.github.dkqa.selector.base.Selector;
 
-    import static com.dkqa.selector.SelectorFactory.tag;
+    import static com.github.dkqa.selector.SelectorFactory.tag;
 
     public class ExamplePageClass {
 
@@ -482,7 +482,7 @@ Let's denote the list and card selectors
         Selector CARD_NAME = CARD.descendant(tag("name"));
 XPath for `CARD_NAME` will be `/descendant::list/descendant::card/descendant::name` 
 
-And to denote the blocked card com.dkqa.selector, we can use already existing selectors
+And to denote the blocked card com.github.dkqa.selector, we can use already existing selectors
 
         Selector BLOCKED_CARD = CARD.isDescendant(tag("block_icon"));
         Selector BLOCKED_CARD_NAME = BLOCKED_CARD.descendant(CARD_NAME);

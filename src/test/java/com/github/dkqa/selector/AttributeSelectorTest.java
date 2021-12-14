@@ -1,9 +1,9 @@
-package com.dkqa.selector;
+package com.github.dkqa.selector;
 
 import org.junit.Assert;
 import org.junit.Test;
-import com.dkqa.selector.base.Selector;
-import com.dkqa.selector.predicates.AttrPredicate;
+import com.github.dkqa.selector.base.Selector;
+import com.github.dkqa.selector.predicates.AttrPredicate;
 
 public class AttributeSelectorTest {
 
