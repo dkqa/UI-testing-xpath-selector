@@ -1,3 +1,10 @@
+      <dependency>
+            <groupId>io.github.dkqa</groupId>
+            <artifactId>ui-testing-xpath</artifactId>
+            <version>1.0.0</version>
+      </dependency>
+
+
 # UI-testing-xpath
 ***
 At the moment, when testing the UI, a very cumbersome approach to storing locators is used. So was created this library.
