@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.dkqa</groupId>
+    <groupId>io.github.dkqa</groupId>
     <artifactId>ui-testing-xpath</artifactId>
     <version>1.0.0</version>
 
@@ -23,7 +23,7 @@
         <developer>
             <name>Danil Koptlov</name>
             <email>dkqmoto@gmail.com</email>
-            <organization>com.github.dkqa</organization>
+            <organization>io.github.dkqa</organization>
             <organizationUrl>https://github.com/dkqa</organizationUrl>
         </developer>
     </developers>
