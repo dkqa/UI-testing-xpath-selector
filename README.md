@@ -1,7 +1,7 @@
       <dependency>
             <groupId>io.github.dkqa</groupId>
             <artifactId>ui-testing-xpath</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.2</version>
       </dependency>
 
 
