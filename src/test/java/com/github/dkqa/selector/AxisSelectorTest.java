@@ -73,4 +73,18 @@ public class AxisSelectorTest {
                         " | /descendant::list_1/descendant::item_3 | /descendant::list_2/descendant::item_3 | /descendant::list_3/descendant::item_3",
                 LISTS.descendant(ITEMS).toXPath());
     }
+
+    @Test
+    public void testSelectorHasCommonRootsInMiddleAddAttribute() {
+        Selector BASE = new Selector().tag("base");
+        Selector ITEM = BASE.descendant(new Selector().tag("item"));
+        Selector ITEM_NAME = ITEM.descendant(new Selector().tag("item_name"));
+
+        Selector BASE_OF_THE_BASE = new Selector().tag("base-base");
+        Selector NEW_BASE = BASE_OF_THE_BASE.descendant(BASE);
+
+        Assert.assertEquals("/descendant::base-base/descendant::base/descendant::item[@class='value']/descendant::item_name",
+                NEW_BASE.descendant(ITEM.attribute(new AttrPredicate().name("class").value("value"))).descendant(ITEM_NAME).toXPath());
+
+    }
 }

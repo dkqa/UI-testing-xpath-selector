@@ -88,10 +88,13 @@ class NodesSelector implements ISelector<NodesSelector> {
         NodesSelector var1 = new NodesSelector(this);
         NodesSelector var2 = new NodesSelector(selector);
 
+        boolean wasFined = false;
+
         for (int i = 0; i < var1.nodes.size(); i++) {
             if (var1.nodes.get(i).equals(var2.nodes.get(0))) {
                 var2.nodes.remove(0);
-            } else {
+                wasFined = true;
+            } else if (wasFined) {
                 break;
             }
         }
