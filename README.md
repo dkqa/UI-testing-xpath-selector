@@ -1,4 +1,4 @@
-   [![Maven Central](https://maven-badges.herokuapp.com/io.github.dkqa/ui-testing-xpath/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.dkqa/ui-testing-xpath)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.dkqa/ui-testing-xpath/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.dkqa/ui-testing-xpath)
    
    <dependency>
             <groupId>io.github.dkqa</groupId>
