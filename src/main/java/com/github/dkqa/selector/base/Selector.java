@@ -118,7 +118,7 @@ public class Selector implements ISelector<Selector> {
     }
 
     public Selector position(int pos) {
-        return this.replaceAttribute(new PositionPredicate().position(pos));
+        return this.attribute(new PositionPredicate().position(pos));
     }
 
     public String toString() {

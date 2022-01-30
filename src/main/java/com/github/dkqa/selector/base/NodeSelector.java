@@ -101,19 +101,11 @@ class NodeSelector implements ISelector<NodeSelector> {
         String axis = this.axis.toString();
         String tag = this.tag;
         String attributes = this.attributes.stream()
-                .filter(s -> !(s instanceof PositionPredicate))
                 .map(ISelectorPredicate::toAttr)
                 .filter(s -> !s.equals(""))
                 .collect(Collectors.joining());
 
-        boolean posPredicate = this.attributes.stream().anyMatch(a -> a instanceof PositionPredicate);
-        String position = (posPredicate) ? this.attributes.stream()
-                .filter(a -> a instanceof PositionPredicate)
-                .findFirst()
-                .get()
-                .toAttr() : "";
-
-        String xPath = "/" + axis + tag + attributes + position;
+        String xPath = "/" + axis + tag + attributes;
         return xPath;
     }
 

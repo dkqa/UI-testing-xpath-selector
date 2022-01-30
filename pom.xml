@@ -6,7 +6,7 @@
 
     <groupId>io.github.dkqa</groupId>
     <artifactId>ui-testing-xpath</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <name>UI testing xPath</name>
     <description>Locators in UI testing</description>
