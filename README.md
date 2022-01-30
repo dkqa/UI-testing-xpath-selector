@@ -1,10 +1,5 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.dkqa/ui-testing-xpath/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.dkqa/ui-testing-xpath)
-   
-   <dependency>
-            <groupId>io.github.dkqa</groupId>
-            <artifactId>ui-testing-xpath</artifactId>
-            <version>1.0.2</version>
-      </dependency>
+
 
 
 # UI-testing-xpath
