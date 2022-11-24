@@ -197,10 +197,10 @@ public class Selector implements ISelector<Selector> {
     }
 
     public Selector isNotDescendantText(String text) {
-        return this.isNotDescendant(new Selector().attribute(new TextPredicate().value(text).not()));
+        return this.isNotDescendant(new Selector().attribute(new TextPredicate().value(text)));
     }
 
     public Selector isNotDescendantTextContains(String text) {
-        return this.isNotDescendant(new Selector().attribute(new TextPredicate().value(text).contains().not()));
+        return this.isNotDescendant(new Selector().attribute(new TextPredicate().value(text).contains()));
     }
 }
